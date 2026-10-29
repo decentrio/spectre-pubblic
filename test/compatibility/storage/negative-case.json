@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "mutation": "ICS20Transfer ERC-7201 namespace or storage layout digest",
+  "expected": "rejected"
+}

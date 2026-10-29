@@ -1,0 +1,57 @@
+{
+  "modules": [
+    {
+      "name": "cosmos-to-op",
+      "src_chain": "cosmos",
+      "dst_chain": "opstack",
+      "config": {
+        "cosmos_wasm_client_id": "",
+        "eth_rpc_url": "http://127.0.0.1:9545",
+        "eth_ws_url": "ws://127.0.0.1:9546",
+        "fetch_timeout": 15,
+        "spectre_client": "",
+        "ics26_address": "0xd519b00154653763d10354698c7c6c3e4ebf3acd",
+        "ics26_client_id": "op-client-0",
+        "membership": "0x7de71ddb07d2dd0aaf8c1440e0fdb9fcd8f8b039",
+        "misbehaviour": "0x34a31cb698b962ae3298ea1e37510a18e623e0b7",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "clock_drift": 60,
+        "app_hash_wait_retries": 30,
+        "app_hash_wait_interval_seconds": 1,
+        "update_client": "0x72af2d859a89a75646237f00d769e1b419c154f8",
+        "signature_verifier": "0x40a66b1bdbf67df96b362e8c162ff03171af1dcc",
+        "rotation_threshold": "5/6"
+      }
+    },
+    {
+      "name": "op-to-cosmos",
+      "src_chain": "opstack",
+      "dst_chain": "cosmos",
+      "config": {
+        "l2_rpc_url": "http://127.0.0.1:9545",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "attestor_endpoints": [{"address": "127.0.0.1:3001", "attestor_index": 0}],
+        "attestor_src_chain": "opdev",
+        "attestors": {"public_keys": ["XZ+76qOWCo/r113X56pAXt0hi3AZpY9LU44nF4vCMmg="], "threshold": 1},
+        "l2_wasm_client_id": "08-wasm-1",
+        "l2_ics26_client_id": "op-client-0",
+        "head_kind": "safe",
+        "log_scan_chunk": 0,
+        "router_deploy_block": 0,
+        "rollup_profile": {
+          "common": {
+            "l2_chain_id": 2151908,
+            "l2_router": "0xd519b00154653763d10354698c7c6c3e4ebf3acd",
+            "commitment_slot": "0x1260944489272988d9df285149b5aa1b0f48f2136d6f416159f840a3e0747600",
+            "profile_version": "op_attestor_v1",
+            "l2_header_fork": "prague"
+          }
+        }
+      }
+    }
+  ],
+  "batch": {
+    "batch_period_seconds": 3,
+    "batch_size": 5
+  }
+}

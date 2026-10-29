@@ -1,0 +1,132 @@
+// Vendored from the spectre-prover repository, proto/prover/v1/prover.proto. That repository
+// is the source of truth: the only edit here is go_package. Regenerate the Go code with
+// `go generate ./prover/proverpb` and check for drift with scripts/check-prover-proto-sync.sh.
+
+syntax = "proto3";
+
+package prover.v1;
+
+option go_package = "relayer/prover/proverpb;proverpb";
+
+// ProverService is the async Groth16 batch-proof API in front of prover.Service.
+//
+// A proof job is identified by a deterministic id, SHA-256(vkDigest ‖ witnessDigest),
+// derived by the server: submitting the same signatures against the same circuit
+// returns the same id and never proves twice. Nothing here retries; the caller owns
+// the retry policy and reads it off the failure class.
+service ProverService {
+  // Info reports the buckets this prover can prove, with the verifying-key digest
+  // of each. The largest bucket is the ceiling a caller's signature selection must
+  // respect; the digests are the circuit version.
+  rpc Info(InfoRequest) returns (InfoResponse);
+
+  // SubmitProof validates the signatures, pads them to the smallest loaded bucket
+  // that fits, and enqueues the job. It never blocks on proving.
+  //
+  // Errors: INVALID_ARGUMENT (the input is wrong, resubmitting it fails the same
+  // way), RESOURCE_EXHAUSTED (queue full, back off and resubmit), UNAVAILABLE
+  // (store unreachable, back off and resubmit).
+  rpc SubmitProof(SubmitProofRequest) returns (SubmitProofResponse);
+
+  // GetProof reads a job's current state. A job that failed is not an RPC error:
+  // it is a FAILED status carrying its class and cause.
+  //
+  // Errors: NOT_FOUND (never submitted, collected by its TTL, or lost to a
+  // restart: resubmitting reproduces the same id), UNAVAILABLE.
+  rpc GetProof(GetProofRequest) returns (GetProofResponse);
+}
+
+message InfoRequest {}
+
+message InfoResponse {
+  // Ascending by bucket.
+  repeated BucketInfo buckets = 1;
+}
+
+message BucketInfo {
+  uint32 bucket = 1;
+  // SHA-256 of the bucket's verifying key: the circuit-version half of every
+  // proof id.
+  bytes vk_sha256 = 2;
+}
+
+// ValidatorSignature is one real signer of a batch. Padding is the server's job.
+message ValidatorSignature {
+  // 64 bytes: R ‖ S.
+  bytes signature = 1;
+  // 32 bytes: compressed Ed25519 A.
+  bytes public_key = 2;
+  // Commit.VoteSignBytes(chainID, idx): what was actually signed.
+  bytes signed_bytes = 3;
+  // Position in the validator set. Echoed back in the result's padded signers.
+  uint32 index = 4;
+  // False marks a signature that is carried but carries no voting power. The
+  // server rejects a batch with no active signer.
+  bool active = 5;
+}
+
+message SubmitProofRequest {
+  repeated ValidatorSignature signatures = 1;
+}
+
+message SubmitProofResponse {
+  // 32 bytes.
+  bytes proof_id = 1;
+}
+
+message GetProofRequest {
+  // 32 bytes.
+  bytes proof_id = 1;
+}
+
+enum JobStatus {
+  JOB_STATUS_UNSPECIFIED = 0;
+  JOB_STATUS_QUEUED = 1;
+  JOB_STATUS_CLAIMED = 2;
+  JOB_STATUS_PROVING = 3;
+  JOB_STATUS_DONE = 4;
+  JOB_STATUS_FAILED = 5;
+}
+
+// FailureClass tells the caller what a failed job means for its retry policy.
+enum FailureClass {
+  FAILURE_CLASS_UNSPECIFIED = 0;
+  // Timeouts and flaky backends: submitting the same request again is reasonable.
+  FAILURE_CLASS_TRANSIENT = 1;
+  // Circuit, artifact or assignment bugs: retrying is useless, a human must look.
+  FAILURE_CLASS_INTERNAL = 2;
+}
+
+message GetProofResponse {
+  bytes proof_id = 1;
+  JobStatus status = 2;
+  // Set when status is DONE.
+  ProofResult result = 3;
+  // Set when status is FAILED.
+  FailureClass failure_class = 4;
+  string failure_cause = 5;
+}
+
+// ProofResult is a finished Groth16 batch proof, shaped for the on-chain verifier
+// dispatch: the bucket selects Groth16Verifier_N{bucket}.
+message ProofResult {
+  uint32 bucket = 1;
+  // Exactly `bucket` entries: the real signers followed by deterministic dummy
+  // padding (active = false), in the slot order the circuit committed to.
+  repeated PaddedSigner padded_signers = 2;
+  // 8 field elements, each 32 bytes big-endian.
+  repeated bytes proof = 3;
+  // 2 field elements, each 32 bytes big-endian.
+  repeated bytes commitments = 4;
+  // 2 field elements, each 32 bytes big-endian.
+  repeated bytes commitment_pok = 5;
+}
+
+// PaddedSigner is the per-slot metadata that travels with the proof as calldata.
+// R and S are deliberately absent: they are bound by the in-circuit Ed25519
+// verification, not by the witness hash.
+message PaddedSigner {
+  uint32 index = 1;
+  bytes public_key = 2;
+  bool active = 3;
+}

@@ -1,0 +1,67 @@
+{
+  "modules": [
+    {
+      "name": "cosmos-to-arbitrum",
+      "src_chain": "cosmos",
+      "dst_chain": "arbitrum",
+      "config": {
+        "cosmos_wasm_client_id": "08-wasm-2",
+        "eth_rpc_url": "http://127.0.0.1:32200",
+        "eth_ws_url": "ws://127.0.0.1:32201",
+        "fetch_timeout": 15,
+        "spectre_client": "0x85cB33Fc344275709c0c194Bc7D1c5C32736C8B9",
+        "ics26_address": "0x9f5eac3d8e082f47631f1551f1343f23cd427162",
+        "ics26_client_id": "arb-client-0",
+        "membership": "0x422a3492e218383753d8006c7bfa97815b44373f",
+        "misbehaviour": "0x9f9f5fd89ad648f2c000c954d8d9c87743243ec5",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "clock_drift": 900,
+        "app_hash_wait_retries": 30,
+        "app_hash_wait_interval_seconds": 1,
+        "update_client": "0x0643d39d47cf0ea95dbea69bf11a7f8c4bc34968",
+        "signature_verifier": "0xb4b46bdaa835f8e4b4d8e208b6559cd267851051",
+        "rotation_threshold": "5/6"
+      }
+    },
+    {
+      "name": "arbitrum-to-cosmos",
+      "src_chain": "arbitrum",
+      "dst_chain": "cosmos",
+      "config": {
+        "l2_rpc_url": "http://127.0.0.1:32200",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "attestor_endpoints": [
+          {
+            "address": "127.0.0.1:3002",
+            "attestor_index": 0
+          }
+        ],
+        "attestor_src_chain": "arbdev",
+        "attestors": {
+          "public_keys": [
+            "XZ+76qOWCo/r113X56pAXt0hi3AZpY9LU44nF4vCMmg="
+          ],
+          "threshold": 1
+        },
+        "l2_wasm_client_id": "08-wasm-2",
+        "l2_ics26_client_id": "arb-client-0",
+        "head_kind": "unsafe",
+        "log_scan_chunk": 0,
+        "include_provisional": true,
+        "rollup_profile": {
+          "common": {
+            "l2_chain_id": 412346,
+            "l2_router": "0x9f5eac3d8e082f47631f1551f1343f23cd427162",
+            "commitment_slot": "0x1260944489272988d9df285149b5aa1b0f48f2136d6f416159f840a3e0747600",
+            "profile_version": "arbitrum_attestor_v1",
+            "l2_header_fork": "london"
+          }
+        }
+      }
+    }
+  ],
+  "batch": {
+    "batch_period_seconds": 3,
+    "batch_size": 5
+  }
+}

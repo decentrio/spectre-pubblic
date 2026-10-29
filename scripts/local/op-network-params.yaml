@@ -1,0 +1,104 @@
+# Local OP Stack devnet for attestor testing (scripts/local/run_optimism_node.sh).
+# Two op-node participants: "sequencer" drives the chain; "replica" is the
+# independent verifier node the attestor points at (its op-node derives from
+# the local L1, mirroring the production verify-mode replica topology).
+# The proposer posts real DisputeGameFactory games (type 1, every 60s) so the
+# attestor's game-verification path has live material quickly.
+# Note: observability (prometheus/grafana/loki) stays enabled — disabling it
+# trips a bug in optimism-package 1.4.0 (batcher metrics registration fails
+# with `key "metrics" not in dict`).
+
+# Pin every OP Stack component to the latest release of ethereum-optimism/optimism
+# (and op-reth, the EL the upstream create-l2-rollup-example runs) as of
+# 2026-07-24. The optimism-package release itself (1.4.0,
+# 2025-07) lags the monorepo — its defaults are op-node v1.13 / op-batcher v1.14 /
+# op-proposer v1.10 / op-deployer v0.4 — and the monorepo no longer ships a
+# kurtosis devnet (replaced by the Go-only op-devstack), so the package supplies
+# orchestration while this registry map supplies the actual latest OP Stack.
+registry:
+  op-reth: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-reth:v2.4.0 # 2026-07-14
+  op-node: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.19.3 # 2026-07-20
+  op-batcher: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-batcher:v1.16.11 # 2026-07-20
+  op-proposer: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-proposer:v1.16.3 # 2026-05-23
+  op-challenger: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-challenger:v1.9.4 # 2026-07-22
+  op-deployer: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-deployer:v0.7.1 # 2026-06-26
+
+optimism_package:
+  # Deploy the contract artifacts embedded in the op-deployer v0.7.1 image
+  # (op-contracts v7.0.0-rc.4 era — the newest that deployer supports).
+  # "embedcded" is the only version-matched choice: v0.7.x dropped the tag://
+  # locator scheme, and the package's default is a 2025-era artifacts tarball
+  # that a v0.7 deployer cannot apply.
+  op_contract_deployer_params:
+    l1_artifacts_locator: embedded
+    l2_artifacts_locator: embedded
+    # op-deployer >= v0.5 refuses to deploy dispute games with an unset
+    # absolute prestate ("DeployDisputeGame: absolutePrestate not set").
+    # A dummy non-zero value (0x03 cannon version-hash prefix) is enough
+    # here: this devnet runs no challenger and the proposer's type-1
+    # permissioned games are never fault-proven.
+    overrides:
+      faultGameAbsolutePrestate: "0x0300000000000000000000000000000000000000000000000000000000000001"
+  chains:
+    opdev:
+      participants:
+        # Roles MUST be explicit: with no `sequencer:` keys the package falls
+        # back to "first participant" — but participants arrive as a dict whose
+        # key order kurtosis alphabetizes, so "replica" would silently win the
+        # sequencer role and the attestor's "independent verifier" would in
+        # fact be the sequencer itself.
+        # --l1.epoch-poll-interval: how often op-node refreshes the L1
+        # safe/finalized heads. The default (6m24s = one mainnet epoch) makes
+        # finality arrive in ~6-epoch leaps on this 2s-slot L1 — the attestor
+        # then hardens ~6 games at once and the proposer sees finalized L2 in
+        # the same coarse steps. 32s = half an epoch here (epoch = 32 slots x
+        # 2s = 64s), so each epoch's finality update is picked up within half
+        # an epoch. Devnet-only tuning; on real networks keep the default.
+        sequencer:
+          sequencer: true
+          el:
+            type: op-reth
+          cl:
+            type: op-node
+            extra_params:
+              - "--l1.epoch-poll-interval=32s"
+        replica:
+          sequencer: sequencer
+          el:
+            type: op-reth
+          cl:
+            type: op-node
+            extra_params:
+              - "--l1.epoch-poll-interval=32s"
+      # Blob batches, Fusaka-style — production parity with OP Mainnet. The
+      # L1 runs Fulu from genesis (eth-network-params.yaml), so the batcher must
+      # wrap blobs with PeerDAS cell proofs: its default is legacy EIP-4844
+      # proofs (CellProofTime=MaxUint64), which a Fulu chain cannot include.
+      # cell-proof-time=0 switches to cell-proof sidecars from the start.
+      # Fallback if blob DA ever misbehaves: swap the flag below for
+      # "--data-availability-type=calldata" (extra_params is appended after
+      # the launcher's own flags and op-batcher's CLI parser lets the last
+      # occurrence win) — games/attestor are DA-agnostic. Historical trap,
+      # pre-Fulu L1 + lighthouse v8: blob proposals die with
+      # InvalidCellProofLength and the chain stalls; never run blob DA on an
+      # Electra-only L1 with lighthouse v8.
+      batcher_params:
+        extra_params:
+          - "--txmgr.cell-proof-time=0"
+      proposer_params:
+        game_type: 1
+        proposal_interval: 60s
+# The L1 is NOT launched by this package: run_optimism_node.sh brings it up first
+# in the same enclave via ethereum-package (eth-network-params.yaml,
+# same recipe as run_eth_node.sh — geth + lighthouse v8, 2s slots), then this
+# package attaches to it through kurtosis-internal service DNS.
+external_l1_network_params:
+  network_id: "3151908" # ethereum-package default
+  rpc_kind: standard
+  el_rpc_url: http://el-1-geth-lighthouse:8545
+  el_ws_url: ws://el-1-geth-lighthouse:8546
+  cl_rpc_url: http://cl-1-lighthouse-geth:4000
+  # Standard ethpandaops prefunded dev account (index 12 of the well-known
+  # mnemonic — the same one optimism-package picks as L2 contract deployer
+  # in bundled-L1 mode).
+  priv_key: "eaba42282ad33c8ef2524f07277c03a776d98ae19f581990ce75becb7cfa1c23"

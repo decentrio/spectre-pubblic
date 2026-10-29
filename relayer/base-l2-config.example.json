@@ -1,0 +1,40 @@
+{
+  "_comment": [
+    "Template for `create-clients-cosmos --l2-config` on BASE.",
+    "",
+    "Base runs the OP Stack, so src_chain/dst_chain stay \"opstack\" in config.json \u2014",
+    "the relayer accepts only cosmos|ethereum|opstack|arbitrum (cmd/main.go). Base and",
+    "Optimism are told apart by module NAME and client id, not by chain type. That is",
+    "also why deploy_l2_contracts.sh needs MODULE_NAME=cosmos-to-base.",
+    "",
+    "rollup_profile is sent verbatim into MsgCreateClient and the Rust verifier rejects",
+    "unknown fields (#316), so it carries exactly the five keys the client reads. The",
+    "settlement fields (dispute_game_factory, game_list_slot) and the ethereum_client",
+    "reference are gone: the client verifies nothing against L1.",
+    "",
+    "profile_version must match the artifact \u2014 op_attestor_v1 / base_attestor_v1 /",
+    "arbitrum_attestor_v1 \u2014 or instantiate fails with InvalidProfileVersion.",
+    "",
+    "l2_chain_id must be the chain l2_rpc_url actually serves. Both",
+    "`create-clients-cosmos --l2-config` and `start` verify it against eth_chainId and",
+    "refuse to proceed on a mismatch; the create path also refuses when the endpoint",
+    "does not answer, because it is about to commit the profile into a client that",
+    "cannot be corrected afterwards. Nothing else reads the field - transactions take",
+    "their chain id from the RPC - so before these checks a wrong value relayed",
+    "happily against whatever chain the URL served."
+  ],
+  "wasm_checksum": "<hex checksum of the Base client wasm, from `gaiad q ibc-wasm checksums`>",
+  "l2_rpc_url": "http://127.0.0.1:8545",
+  "attestors": {"public_keys": ["XZ+76qOWCo/r113X56pAXt0hi3AZpY9LU44nF4vCMmg="], "threshold": 1},
+  "rollup_profile": {
+    "common": {
+      "l2_chain_id": 84532,
+      "l2_router": "0x1111111111111111111111111111111111111111",
+      "commitment_slot": "0x1260944489272988d9df285149b5aa1b0f48f2136d6f416159f840a3e0747600",
+      "profile_version": "base_attestor_v1",
+      "l2_header_fork": "prague"
+    }
+  },
+  "bootstrap_block": 0,
+  "counterparty_client_id": "base-client-0"
+}

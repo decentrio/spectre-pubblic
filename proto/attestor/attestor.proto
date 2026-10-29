@@ -1,0 +1,246 @@
+syntax = "proto3";
+
+package attestor;
+
+option go_package = "attestor/types/attestor;attestorpb";
+
+// AttestorService exposes independently verified L2 commitments.
+service AttestorService {
+  // Info reports every configured chain and its attestation frontier.
+  rpc Info(InfoRequest) returns (InfoResponse);
+
+  // AttestedUpTo returns the highest independently verified L2 commitment for
+  // the required source chain. Production callers must always set src_chain.
+  rpc AttestedUpTo(AttestedUpToRequest) returns (AttestedUpToResponse);
+
+  // AttestedRootAtOrBelow returns the highest independently verified L2
+  // commitment at or below the requested block number for the required source
+  // chain.
+  rpc AttestedRootAtOrBelow(AttestedRootAtOrBelowRequest) returns (AttestedRootAtOrBelowResponse);
+
+  // WatchAttested streams the current frontier, then a message whenever its
+  // identity (height, root, provisional flag) changes. Without
+  // include_provisional the frontier only grows; with it, a finality recheck
+  // may also correct the streamed root in place, confirm it, or revoke it —
+  // after a revocation the new, possibly lower, frontier is re-emitted.
+  rpc WatchAttested(WatchAttestedRequest) returns (stream WatchAttestedResponse);
+
+  // VerifyStateRoot compares an expected root, and optionally a block hash,
+  // with the replica's canonical block at the requested L2 height. src_chain
+  // is required for production callers.
+  rpc VerifyStateRoot(VerifyStateRootRequest) returns (VerifyStateRootResponse);
+}
+
+// AttestedRoot is one independently verified rollup commitment.
+message AttestedRoot {
+  // L2BlockNumber is the execution block committed by this attestation.
+  uint64 l2_block_number = 1;
+
+  // Root is chain-specific: an OP output root or an Arbitrum L2 state root.
+  bytes root = 2;
+
+  // Source identifies the commitment mechanism, such as "game", "derived",
+  // or "assertion".
+  string source = 3;
+
+  reserved 8;
+
+  // Provenance carries the chain-specific on-chain object that the relayer
+  // must prove. At most one identifier can be present.
+  oneof provenance {
+    // GameIndex identifies an OP dispute game when source is "game".
+    uint64 game_index = 4;
+
+    // AssertionHash identifies an Arbitrum BoLD assertion when source is
+    // "assertion".
+    bytes assertion_hash = 7;
+  }
+
+  // Provisional is true while the commitment still awaits the chain-specific
+  // irreversible-finality check. What that check is, and so what a provisional
+  // root can still lose, depends on source:
+  //   - "game" (OP) and "derived" (OP, Arbitrum): provisional until the
+  //     finalized head reaches the L2 block. An L1 reorg, or a sequencer
+  //     divergence at the unsafe head, can still replace the root.
+  //   - "assertion" (Arbitrum): provisional until the BoLD assertion is
+  //     confirmed at finalized L1 and Nitro's finalized head reaches the L2
+  //     block. While pending, the assertion can still lose a challenge.
+  // See docs/L2_CLIENTS.md, "Provisional attestations".
+  bool provisional = 5;
+
+  // AttestedAt is the Unix timestamp when the local verifier accepted it.
+  int64 attested_at = 6;
+}
+
+// InfoRequest selects all configured chains.
+message InfoRequest {}
+
+// ChainInfo reports one configured attestor.
+message ChainInfo {
+  // SrcChain is the required configured source-chain routing identifier.
+  string src_chain = 1;
+
+  // AttestationHead is the configured gating head.
+  string attestation_head = 2;
+
+  // ReplicaSeen is true after the replica has reported sync status.
+  bool replica_seen = 3;
+
+  // ReplicaUnsafeL2 is the replica's unsafe L2 head.
+  uint64 replica_unsafe_l2 = 4;
+
+  // ReplicaSafeL2 is the replica's safe L2 head.
+  uint64 replica_safe_l2 = 5;
+
+  // ReplicaFinalizedL2 is the replica's finalized L2 head.
+  uint64 replica_finalized_l2 = 6;
+
+  // PendingGames is the number of ingested OP games awaiting a verdict.
+  uint64 pending_games = 7;
+
+  // AttestedUpTo is the non-provisional frontier, when one exists.
+  AttestedRoot attested_up_to = 8;
+
+  // AttestedUpToProvisional is the frontier including provisional entries.
+  AttestedRoot attested_up_to_provisional = 9;
+}
+
+// InfoResponse reports every configured chain.
+message InfoResponse {
+  // Chains has one entry per configured source chain.
+  repeated ChainInfo chains = 1;
+}
+
+// AttestedUpToRequest selects one source-chain frontier.
+message AttestedUpToRequest {
+  // SrcChain is the required configured source-chain routing identifier.
+  string src_chain = 1;
+
+  // IncludeProvisional allows locally verified commitments that still await
+  // irreversible finality.
+  bool include_provisional = 2;
+}
+
+// AttestedUpToResponse contains the source-chain frontier when one exists.
+message AttestedUpToResponse {
+  // Found is false before any qualifying commitment has been attested.
+  bool found = 1;
+
+  // Root is set only when Found is true.
+  AttestedRoot root = 2;
+}
+
+// AttestedRootAtOrBelowRequest selects an inclusive L2-height bound.
+message AttestedRootAtOrBelowRequest {
+  // SrcChain is the required configured source-chain routing identifier.
+  string src_chain = 1;
+
+  // L2BlockNumber is the inclusive upper bound.
+  uint64 l2_block_number = 2;
+
+  // IncludeProvisional allows locally verified commitments that still await
+  // irreversible finality.
+  bool include_provisional = 3;
+}
+
+// AttestedRootAtOrBelowResponse contains the best qualifying commitment.
+message AttestedRootAtOrBelowResponse {
+  // Found is false when no qualifying commitment exists at or below the bound.
+  bool found = 1;
+
+  // Root is set only when Found is true.
+  AttestedRoot root = 2;
+}
+
+// WatchAttestedRequest selects a source-chain frontier stream.
+message WatchAttestedRequest {
+  // SrcChain is the required configured source-chain routing identifier.
+  string src_chain = 1;
+
+  // IncludeProvisional allows provisional entries to advance the stream.
+  bool include_provisional = 2;
+}
+
+// WatchAttestedResponse contains one frontier update.
+message WatchAttestedResponse {
+  // Root is the current frontier entry. Consumers must treat each message as
+  // the authoritative frontier — a provisional watch can see the same height
+  // again with a corrected root or cleared provisional flag, or a lower
+  // height after a provisional revocation.
+  AttestedRoot root = 1;
+}
+
+// RunMode selects which replica head must include a requested block.
+enum RunMode {
+  // Unspecified is not a valid request value; VerifyStateRoot rejects it with
+  // INVALID_ARGUMENT.
+  RUN_MODE_UNSPECIFIED = 0;
+
+  // Unsafe requires the block to be included in the replica's unsafe L2 head.
+  RUN_MODE_UNSAFE = 1;
+
+  // Safe requires the block to be included in the replica's safe L2 head.
+  RUN_MODE_SAFE = 2;
+
+  // Finalized requires the block to be included in the replica's finalized L2
+  // head.
+  RUN_MODE_FINALIZED = 3;
+}
+
+// VerifyStateRootRequest identifies one L2 block and its expected commitment.
+message VerifyStateRootRequest {
+  // BlockNumber is the L2 block height.
+  uint64 block_number = 1;
+
+  // ExpectedStateRoot must contain exactly 32 bytes.
+  bytes expected_state_root = 2;
+
+  // ExpectedBlockHash is optional. When set, it must contain exactly 32 bytes
+  // and must also match the replica's canonical block.
+  bytes expected_block_hash = 3;
+
+  // RunMode selects the replica finality level for this verification request.
+  RunMode run_mode = 4;
+
+  // SrcChain names the chain to verify against, matching the src_chain of the
+  // oracle requests. A daemon serving several chains uses it to pick the
+  // replica.
+  //
+  // Required for production callers. An empty value is rejected rather than
+  // inferred from a configured route: a guessed route would answer valid=false
+  // for a good header, which the caller reads as a divergence rather than a
+  // misroute.
+  string src_chain = 5;
+
+  // L2Router is the 20-byte ICS26Router address in the receiving wasm client
+  // profile. It is included in the signed update statement so a signature for
+  // one router cannot be replayed to another client.
+  bytes l2_router = 6;
+
+  // AttestorSetHash is SHA-256(u16be(threshold) || u16be(count) || sorted
+  // public keys) for the immutable set in the receiving wasm ClientState.
+  // It is included in every signature so attestor-set migrations cannot replay
+  // old signatures.
+  bytes attestor_set_hash = 7;
+}
+
+// VerifyStateRootResponse returns the replica's canonical block commitment.
+message VerifyStateRootResponse {
+  // Valid is true only when all supplied expectations match the replica.
+  bool valid = 1;
+
+  // BlockNumber echoes the verified L2 height.
+  uint64 block_number = 2;
+
+  // BlockHash is the replica's canonical block hash.
+  bytes block_hash = 3;
+
+  // StateRoot is the root committed by the canonical block header.
+  bytes state_root = 4;
+
+  // AttestationSignature is an Ed25519 signature over the canonical block
+  // identity returned here. It is set only when Valid is true. The relayer
+  // carries it to the L2 wasm client, which verifies it against its immutable
+  // attestor public key before accepting the header.
+  bytes attestation_signature = 5;
+}

@@ -1,0 +1,69 @@
+# Single L1 recipe for BOTH the ETH<->Cosmos devnet (run_eth_node.sh) and the OP
+# Stack devnet (run_optimism_node.sh attaches its L2 to this L1). Fusaka-from-genesis
+# gives production parity with Ethereum mainnet (Fulu live since 2025-12-03) and is
+# required by the OP Stack blob path; the ETH light client speaks Fulu as of the
+# fork-version support in packages/ethereum. geth/lighthouse are left at the
+# ethereum-package defaults (:latest) — currently geth v1.17.x + lighthouse v8.
+participants:
+  - el_type: geth
+    cl_type: lighthouse
+    # EIP-7825 (Osaka/Fulu) caps every transaction — and every eth_call, which is
+    # validated the same way — at 2^24 = 16,777,216 gas. geth still defaults
+    # --rpc.gascap to 50,000,000 and substitutes it for calls that omit `gas`, so
+    # on a Fulu chain EVERY gas-less eth_call is auto-assigned 50M and rejected
+    # with "transaction gas limit too high (cap: 16777216, tx: 50000000)". That
+    # hits abigen bindings in particular: bind.CallOpts has no Gas field
+    # (go-ethereum accounts/abi/bind/v2/base.go), so the OP/Base attestors cannot
+    # work around it — DisputeGameFactory.gameCount fails at bootstrap. Clamp the
+    # cap to the EIP-7825 limit. Verified on this L1: gas 16777216 returns a
+    # result, 16777217 is rejected.
+    el_extra_params:
+      - --rpc.gascap=16777216
+    # PeerDAS: the single node must custody ALL data columns to produce and
+    # reconstruct blob blocks, and to satisfy the package's "Fulu needs a
+    # supernode" validation.
+    supernode: true
+    # Archive state: the L2→Cosmos header builder proves the L1 DisputeGameFactory
+    # and game accounts with eth_getProof at the L1 block the Cosmos-side Ethereum
+    # client trusts. That block ages past a full node's ~128-block state window
+    # (nothing else advances that client), and the proof then fails with
+    # "historical state ... is not available".
+
+network_params:
+  # 2s per slot → epoch = 64s, finality ~2 min.
+  seconds_per_slot: 2
+  genesis_delay: 10
+  # Fusaka (Fulu/Osaka) from genesis: mainnet parity, and lighthouse v8 is
+  # PeerDAS-native (cannot publish pre-Fulu blob blocks). The ETH light client
+  # verifies the Fulu signing domain via its fulu fork slot.
+  fulu_fork_epoch: 0
+  # op-deployer requires the deterministic-deployment (create2) proxy, which
+  # ethereum-package does not preload by default. Harmless for the ETH-only flow.
+  additional_preloaded_contracts: '
+    {
+      "0x4e59b44847b379578588920cA78FbF26c0B4956C": {
+        "balance": "0ETH",
+        "code": "0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf3",
+        "storage": {},
+        "nonce": "1"
+      }
+    }
+  '
+
+# Pin host-visible public port ranges so relayer endpoints stay stable across
+# enclave recreation. EL and CL ranges are separated to avoid future overlap if
+# the package exposes additional public ports for either service group.
+#
+# Keep these BELOW the macOS ephemeral range (49152-65535): the OS hands out
+# ephemeral ports in that range as source ports for outbound connections (e.g.
+# the always-on APNS socket at :5223 grabs 59616), which then collides with the
+# pinned Docker port bind and fails enclave startup with "address already in
+# use" no matter how many times the enclave is recreated. 32000/32100 sit well
+# under the ephemeral floor, so the OS never allocates them.
+port_publisher:
+  el:
+    enabled: true
+    public_port_start: 32000
+  cl:
+    enabled: true
+    public_port_start: 32100

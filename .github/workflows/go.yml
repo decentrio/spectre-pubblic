@@ -1,0 +1,40 @@
+name: Go
+
+# Temporarily disabled: this workflow only runs on manual dispatch for now.
+# Re-enable auto-runs by restoring the push/pull_request triggers below.
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+  # pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The relayer calls the prover over gRPC and links neither gnark nor libgaraga_rs, so
+      # it needs no private modules and no native library. The prover is built and tested
+      # in its own repository (decentrio/spectre-prover).
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: relayer/go.mod
+          cache: true
+
+      - name: Build
+        working-directory: relayer
+        run: go build ./...
+
+      - name: Test
+        working-directory: relayer
+        run: go test ./...
+
+      # The Optimism attestor sidecar is its own module with no native dependencies.
+      - name: Build Optimism attestor
+        working-directory: attestor/optimism
+        run: go build ./...
+
+      - name: Test Optimism attestor
+        working-directory: attestor/optimism
+        run: go test ./...

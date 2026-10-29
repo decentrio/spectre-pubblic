@@ -1,0 +1,29 @@
+name: E2E — SpectreClient
+
+# Manually-triggered matrix run of TestWithSpectreClientTestSuite
+# (deploy + updateApplicationState/updateConsensusState against the Spectre
+# Tendermint light client only). Smallest suite. Delegates to the reusable
+# e2e-suite.yml. Trigger from the Actions tab.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch/tag/SHA to run against (defaults to the triggering ref)
+        required: false
+        type: string
+      filter:
+        description: Optional method-name substring (e.g. "UpdateClient"). Empty runs all.
+        required: false
+        type: string
+
+jobs:
+  run:
+    uses: ./.github/workflows/e2e-suite.yml
+    secrets: inherit
+    with:
+      suite: TestWithSpectreClientTestSuite
+      ref: ${{ inputs.ref }}
+      filter: ${{ inputs.filter }}
+      proof_type: groth16
+      max_parallel: 2
+      timeout_minutes: 45

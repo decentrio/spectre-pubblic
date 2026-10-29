@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "mutation": "protocol bytes, verifier pair, or binding digest",
+  "expected": "rejected"
+}

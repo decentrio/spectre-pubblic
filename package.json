@@ -1,0 +1,33 @@
+{
+  "name": "@decentrio/spectre",
+  "description": "IBC v2 Solidity implementation with gnark Groth16 light client verification.",
+  "version": "1.0.0",
+  "dependencies": {
+    "@openzeppelin/contracts": "5.4.0",
+    "@openzeppelin/contracts-upgradeable": "5.4.0",
+    "@uniswap/permit2": "github:Uniswap/permit2"
+  },
+  "devDependencies": {
+    "forge-std": "github:foundry-rs/forge-std#v1.10.0",
+    "solhint": "^6.0.1",
+    "quicktype": "^23.2.6"
+  },
+  "keywords": [
+    "blockchain",
+    "ethereum",
+    "forge",
+    "foundry",
+    "smart-contracts",
+    "solidity",
+    "ibc",
+    "gnark",
+    "groth16"
+  ],
+  "private": true,
+  "scripts": {
+    "lint:sol": "forge fmt --check && bun solhint -w 0 '{scripts,contracts,test}/**/*.sol'",
+    "lint:natspec": "bun natspec-smells --include 'contracts/**/*.sol'",
+    "test:coverage": "forge coverage",
+    "test:coverage:report": "forge coverage --report lcov && genhtml lcov.info --branch-coverage --output-dir coverage"
+  }
+}

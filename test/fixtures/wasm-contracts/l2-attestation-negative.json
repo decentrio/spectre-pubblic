@@ -1,0 +1,29 @@
+{
+  "schema": "spectre_l2_attestation_negative_v1",
+  "applies_to_profiles": [
+    "op_attestor_v1",
+    "base_attestor_v1",
+    "arbitrum_attestor_v1"
+  ],
+  "positive_fixture": "l2-attestation-vectors.json",
+  "cases": [
+    {"name": "missing_signatures", "expected_error": "UnsupportedUnsignedHeader", "must_precede_proof": true},
+    {"name": "zero_height", "expected_error": "ZeroHeight", "must_precede_proof": true},
+    {"name": "too_few_signatures", "expected_error": "InvalidAttestorSignatureCount", "must_precede_proof": true},
+    {"name": "too_many_signatures", "expected_error": "InvalidAttestorSignatureCount", "must_precede_proof": true},
+    {"name": "duplicate_index", "expected_error": "DuplicateOrUnsortedSignatureIndex", "must_precede_proof": true},
+    {"name": "unsorted_index", "expected_error": "DuplicateOrUnsortedSignatureIndex", "must_precede_proof": true},
+    {"name": "out_of_range_index", "expected_error": "InvalidAttestorIndex", "must_precede_proof": true},
+    {"name": "short_signature", "expected_error": "InvalidAttestorSignatureLength", "must_precede_proof": true},
+    {"name": "long_signature", "expected_error": "InvalidAttestorSignatureLength", "must_precede_proof": true},
+    {"name": "wrong_signature", "expected_error": "AttestorSignatureVerificationFailed", "must_precede_proof": true},
+    {"name": "wrong_key", "expected_error": "AttestorSignatureVerificationFailed", "must_precede_proof": true},
+    {"name": "wrong_set", "expected_error": "AttestorSignatureVerificationFailed", "must_precede_proof": true},
+    {"name": "wrong_chain", "expected_error": "AttestorSignatureVerificationFailed", "must_precede_proof": true},
+    {"name": "wrong_router", "expected_error": "AttestorSignatureVerificationFailed", "must_precede_proof": true},
+    {"name": "wrong_block", "expected_error": "AttestorSignatureVerificationFailed", "must_precede_proof": true},
+    {"name": "wrong_state_root", "expected_error": "AttestorSignatureVerificationFailed", "must_precede_proof": true},
+    {"name": "invalid_signature_and_malformed_proof", "expected_error": "AttestorSignatureVerificationFailed", "must_precede_proof": true},
+    {"name": "valid_signature_and_malformed_proof", "expected_error": "Proof", "must_precede_proof": false}
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "_comment": [
+    "Template for `create-clients-cosmos --l2-config` on OPTIMISM. Copy to",
+    "op-l2-config.json (gitignored) and fill in your deployment's values.",
+    "",
+    "The values below are OP SEPOLIA, so they are real and checkable. For the local",
+    "devnet (run_optimism_node.sh) use l2_chain_id 2151908 and the router address",
+    "deploy_l2_contracts.sh printed. Its checked-in public key matches the local",
+    "attestor handoff; replace it with your own attestor public key on every other network.",
+    "",
+    "rollup_profile is submitted verbatim in MsgCreateClient and the Rust verifier",
+    "rejects unknown fields, so common carries exactly these five keys — no",
+    "ethereum_client, no dispute_game_factory, no game_list_slot, no finality_policy.",
+    "The attestor-trusted client verifies nothing against L1.",
+    "",
+    "Four fields must be right or the client fails, each in its own way:",
+    "  profile_version  must match the wasm artifact (op_attestor_v1 /",
+    "                   base_attestor_v1 / arbitrum_attestor_v1) — a mismatch fails",
+    "                   at instantiate with InvalidProfileVersion.",
+    "  l2_header_fork   must match the chain's execution-header layout. OP Stack",
+    "                   keeps the L1 header shape, so prague; Arbitrum Nitro emits",
+    "                   none of the post-London optional fields and needs london.",
+    "                   A mismatch is rejected on EVERY update, not at creation.",
+    "  l2_chain_id      must be the chain the relayer's l2_rpc_url actually serves.",
+    "                   Both `create-clients-cosmos --l2-config` and `start` verify it",
+    "                   against eth_chainId and refuse to proceed on a mismatch; the",
+    "                   create path also refuses when the endpoint does not answer,",
+    "                   because it is about to commit the profile on-chain.",
+    "                   Nothing else reads the field: transactions take their chain id",
+    "                   from the RPC, so before these checks a wrong value relayed",
+    "                   happily against whatever chain the URL served.",
+    "",
+    "wasm_checksum is printed by scripts/local/wasm_op.sh, and is the sha256 of the",
+    "UNCOMPRESSED wasm. counterparty_client_id is the client id on the L2 router",
+    "that tracks Cosmos; create-clients-eth registers the SpectreClient under it."
+  ],
+  "wasm_checksum": "<hex checksum from `gaiad q ibc-wasm checksums`, e.g. a49e97b0...>",
+  "l2_rpc_url": "http://127.0.0.1:9545",
+  "attestors": {"public_keys": ["XZ+76qOWCo/r113X56pAXt0hi3AZpY9LU44nF4vCMmg="], "threshold": 1},
+  "rollup_profile": {
+    "common": {
+      "l2_chain_id": 11155420,
+      "l2_router": "0x0000000000000000000000000000000000000000",
+      "commitment_slot": "0x1260944489272988d9df285149b5aa1b0f48f2136d6f416159f840a3e0747600",
+      "profile_version": "op_attestor_v1",
+      "l2_header_fork": "prague"
+    }
+  },
+  "bootstrap_block": 0,
+  "counterparty_client_id": "op-client-0"
+}

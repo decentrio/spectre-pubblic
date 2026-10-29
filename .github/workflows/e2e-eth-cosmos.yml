@@ -1,0 +1,27 @@
+name: E2E — ETH ↔ Cosmos
+
+# Manually-triggered matrix run of TestWithEthCosmosTestSuite (ETH <-> Cosmos
+# ICS20 transfers, timeouts, error acks). Delegates to the reusable
+# e2e-suite.yml. Heavy (Docker + Kurtosis + Groth16) — trigger from Actions tab.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch/tag/SHA to run against (defaults to the triggering ref)
+        required: false
+        type: string
+      filter:
+        description: Optional method-name substring (e.g. "Timeout", "ICS20Transfer"). Empty runs all.
+        required: false
+        type: string
+
+jobs:
+  run:
+    uses: ./.github/workflows/e2e-suite.yml
+    secrets: inherit
+    with:
+      suite: TestWithEthCosmosTestSuite
+      ref: ${{ inputs.ref }}
+      filter: ${{ inputs.filter }}
+      max_parallel: 6
+      timeout_minutes: 60

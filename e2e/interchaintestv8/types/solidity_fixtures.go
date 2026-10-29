@@ -1,0 +1,151 @@
+package types
+
+import (
+	"encoding/hex"
+	"encoding/json"
+	"os"
+	"time"
+
+	"github.com/ethereum/go-ethereum/accounts/abi"
+
+	"github.com/decentrio/spectre/packages/go-abigen/ics26router"
+
+	"github.com/srdtrk/solidity-ibc-eureka/e2e/v8/testvalues"
+)
+
+type SolidityFixtureGenerator struct {
+	Enabled               bool
+	groth16GenesisFixture *Groth16GenesisFixture
+}
+
+// NewSolidityFixtureGenerator creates a new SolidityFixtureGenerator
+func NewSolidityFixtureGenerator() *SolidityFixtureGenerator {
+	return &SolidityFixtureGenerator{
+		Enabled: os.Getenv(testvalues.EnvKeyGenerateSolidityFixtures) == testvalues.EnvValueGenerateFixtures_True,
+	}
+}
+
+// Groth16GenesisFixture is the genesis fixture for the groth16 light client
+type Groth16GenesisFixture struct {
+	// The trusted client state of the groth16 light client
+	TrustedClientState string `json:"trustedClientState"`
+	// The trusted consensus state of the groth16 light client
+	TrustedConsensusStateHash string `json:"trustedConsensusStateHash"`
+	// The vkey for the update client program
+	UpdateClientVkey string `json:"updateClientVkey"`
+	// The vkey for the membership program
+	MembershipVkey string `json:"membershipVkey"`
+	// The vkey for the update client and membership program
+	UcAndMembershipVkey string `json:"ucAndMembershipVkey"`
+	// The vkey for the misbehaviour program
+	MisbehaviourVkey string `json:"misbehaviourVkey"`
+}
+
+// GenericSolidityFixture is the fixture to be unmarshalled into a test case in Solidity tests
+type GenericSolidityFixture struct {
+	// Hex encoded bytes for groth16 genesis fixture
+	Groth16GenesisFixture string `json:"groth16GenesisFixture"`
+	// Hex encoded bytes to be fed into the router contract
+	Msg string `json:"msg"`
+	// Hex encoded bytes for the IICS26RouterMsgsPacket in the context of this fixture
+	Packet string `json:"packet"`
+	// The contract address of the ERC20 token
+	Erc20Address string `json:"erc20Address"`
+	// The timestamp in seconds around the time of submitting the Msg to the router contract
+	Timestamp int64 `json:"timestamp"`
+}
+
+// GenerateAndSaveSolidityFixture generates a fixture and saves it to a file
+func (g *SolidityFixtureGenerator) GenerateAndSaveSolidityFixture(fileName, erc20Address string, msgBz []byte, packet ics26router.IICS26RouterMsgsPacket) error {
+	if !g.Enabled {
+		return nil
+	}
+
+	fixture, err := g.generateFixture(erc20Address, msgBz, packet)
+	if err != nil {
+		return err
+	}
+
+	fixtureBz, err := json.Marshal(fixture)
+	if err != nil {
+		return err
+	}
+
+	filePath := testvalues.SolidityFixturesDir + "/" + fileName
+	// nolint:gosec
+	return os.WriteFile(filePath, fixtureBz, 0o644)
+}
+
+func (g *SolidityFixtureGenerator) generateFixture(erc20Address string, msgBz []byte, packet ics26router.IICS26RouterMsgsPacket) (GenericSolidityFixture, error) {
+	genesisBz, err := g.GetGenesisFixture()
+	if err != nil {
+		return GenericSolidityFixture{}, err
+	}
+
+	packetBz, err := abiEncodePacket(packet)
+	if err != nil {
+		return GenericSolidityFixture{}, err
+	}
+
+	// Generate the fixture
+	fixture := GenericSolidityFixture{
+		Groth16GenesisFixture: hex.EncodeToString(genesisBz),
+		Msg:                   hex.EncodeToString(msgBz),
+		Erc20Address:          erc20Address,
+		Timestamp:             time.Now().Unix(),
+		Packet:                hex.EncodeToString(packetBz),
+	}
+	return fixture, nil
+}
+
+func (g *SolidityFixtureGenerator) GetGenesisFixture() ([]byte, error) {
+	genesisBz, err := json.Marshal(g.groth16GenesisFixture)
+	if err != nil {
+		return nil, err
+	}
+
+	return genesisBz, nil
+}
+
+func (g *SolidityFixtureGenerator) SetGenesisFixture(
+	clientState []byte, consensusStateHash, updateClientVkey,
+	membershipVkey, ucAndMembershipVkey, misbehaviourVkey [32]byte,
+) {
+	if !g.Enabled {
+		return
+	}
+
+	g.groth16GenesisFixture = &Groth16GenesisFixture{
+		TrustedClientState:        hex.EncodeToString(clientState),
+		TrustedConsensusStateHash: hex.EncodeToString(consensusStateHash[:]),
+		UpdateClientVkey:          hex.EncodeToString(updateClientVkey[:]),
+		MembershipVkey:            hex.EncodeToString(membershipVkey[:]),
+		UcAndMembershipVkey:       hex.EncodeToString(ucAndMembershipVkey[:]),
+		MisbehaviourVkey:          hex.EncodeToString(misbehaviourVkey[:]),
+	}
+}
+
+func abiEncodePacket(packet ics26router.IICS26RouterMsgsPacket) ([]byte, error) {
+	structType, err := abi.NewType("tuple", "", []abi.ArgumentMarshaling{
+		{Name: "sequence", Type: "uint64"},
+		{Name: "sourceClient", Type: "string"},
+		{Name: "destClient", Type: "string"},
+		{Name: "timeoutTimestamp", Type: "uint64"},
+		{Name: "payloads", Type: "tuple[]", Components: []abi.ArgumentMarshaling{
+			{Name: "sourcePort", Type: "string"},
+			{Name: "destPort", Type: "string"},
+			{Name: "version", Type: "string"},
+			{Name: "encoding", Type: "string"},
+			{Name: "value", Type: "bytes"},
+		}},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	args := abi.Arguments{
+		{Type: structType},
+	}
+
+	return args.Pack(packet)
+}

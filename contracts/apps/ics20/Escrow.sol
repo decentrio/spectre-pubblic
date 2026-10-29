@@ -1,0 +1,103 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.28;
+
+import { IERC20 } from "@openzeppelin-contracts/token/ERC20/IERC20.sol";
+import { IMintableAndBurnable } from "contracts/apps/ics20/interfaces/IMintableAndBurnable.sol";
+import { IEscrow } from "contracts/apps/ics20/interfaces/IEscrow.sol";
+import { IEscrowErrors } from "contracts/apps/ics20/errors/IEscrowErrors.sol";
+import { IAccessManaged } from "@openzeppelin-contracts/access/manager/IAccessManaged.sol";
+
+import { ContextUpgradeable } from "@openzeppelin-upgradeable/utils/ContextUpgradeable.sol";
+import { RateLimitUpgradeable } from "contracts/apps/ics20/rate-limit/RateLimitUpgradeable.sol";
+import { SafeERC20 } from "@openzeppelin-contracts/token/ERC20/utils/SafeERC20.sol";
+
+using SafeERC20 for IERC20;
+
+/// @title Escrow Contract
+/// @notice This contract is used to escrow the funds for the ICS20 contract
+contract Escrow is IEscrowErrors, IEscrow, ContextUpgradeable, RateLimitUpgradeable {
+    /// @notice Storage of the Escrow contract
+    /// @dev It's implemented on a custom ERC-7201 namespace to reduce the risk of storage collisions when using with
+    /// upgradeable contracts.
+    /// @param _ics20 The ICS20 contract address, can send funds from the escrow
+    struct EscrowStorage {
+        address _ics20;
+    }
+
+    /// @notice ERC-7201 slot for the Escrow storage
+    /// @dev keccak256(abi.encode(uint256(keccak256("ibc.storage.Escrow")) - 1)) & ~bytes32(uint256(0xff))
+    bytes32 private constant ESCROW_STORAGE_SLOT = 0x537eb9d931756581e7ea6f7811162c646321946650ac0ac6bf83b24932e41600;
+
+    /// @dev This contract is meant to be deployed by a proxy, so the constructor is not used
+    // natlint-disable-next-line MissingNotice
+    constructor() {
+        _disableInitializers();
+    }
+
+    /// @inheritdoc IEscrow
+    function initialize(address ics20_, address authority) external onlyVersion(0) reinitializer(2) {
+        __Context_init();
+        __RateLimit_init(authority);
+
+        EscrowStorage storage $ = _getEscrowStorage();
+        $._ics20 = ics20_;
+    }
+
+    /// @inheritdoc IEscrow
+    function initializeV2() external onlyVersion(1) reinitializer(2) {
+        address authority = IAccessManaged(_getEscrowStorage()._ics20).authority();
+        // Anyone can call this, and ICS20Transfer reports no authority until its own `initializeV2` has run.
+        // An escrow initialized before that would have no authority for good, and its rate limit could never be set.
+        require(authority != address(0), IAccessManaged.AccessManagedInvalidAuthority(authority));
+        __RateLimit_init(authority);
+    }
+
+    /// @inheritdoc IEscrow
+    function send(IERC20 token, address to, uint256 amount) external onlyICS20 {
+        _assertAndUpdateRateLimit(address(token), amount);
+        token.safeTransfer(to, amount);
+    }
+
+    /// @inheritdoc IEscrow
+    function sendRefund(IERC20 token, address to, uint256 amount, uint256 usageToRestore) external onlyICS20 {
+        _increaseDailyUsageUncapped(address(token), usageToRestore);
+        token.safeTransfer(to, amount);
+    }
+
+    /// @inheritdoc IEscrow
+    function burn(IMintableAndBurnable token, uint256 amount) external onlyICS20 {
+        token.burn(amount);
+    }
+
+    /// @inheritdoc IEscrow
+    function recvCallback(address token, address, uint256 amount) external onlyICS20 returns (uint256 usageRemoved) {
+        usageRemoved = _reduceDailyUsage(token, amount);
+    }
+
+    /// @inheritdoc IEscrow
+    function ics20() external view override returns (address) {
+        return _getEscrowStorage()._ics20;
+    }
+
+    /// @notice Returns the storage of the Escrow contract
+    /// @return $ The storage of the Escrow contract
+    function _getEscrowStorage() private pure returns (EscrowStorage storage $) {
+        // solhint-disable-next-line no-inline-assembly
+        assembly {
+            $.slot := ESCROW_STORAGE_SLOT
+        }
+    }
+
+    /// @notice Modifier to check if the caller is the ICS20 contract
+    modifier onlyICS20() {
+        require(_msgSender() == _getEscrowStorage()._ics20, EscrowUnauthorized(_msgSender()));
+        _;
+    }
+
+    /// @notice Modifier to check if the initialization version matches the expected version
+    /// @param version The expected current version of the contract
+    modifier onlyVersion(uint256 version) {
+        require(_getInitializedVersion() == version, InvalidInitialization());
+        _;
+    }
+}

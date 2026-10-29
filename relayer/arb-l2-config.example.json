@@ -1,0 +1,45 @@
+{
+  "_comment": [
+    "Template for `create-clients-cosmos --l2-config` on ARBITRUM.",
+    "",
+    "l2_header_fork is \"london\" here, not \"prague\" as on OP and Base: Arbitrum Nitro",
+    "produces none of the post-London optional header fields, so a prague layout fails",
+    "to decode the header the relayer sends.",
+    "",
+    "rollup_profile is sent verbatim into MsgCreateClient and the Rust verifier rejects",
+    "unknown fields (#316), so it carries exactly the five keys the client reads. The",
+    "attestor-trusted client verifies nothing against L1, so there are no settlement",
+    "fields and no ethereum_client reference — not even for Arbitrum's RollupCore.",
+    "",
+    "profile_version must match the artifact — op_attestor_v1 / base_attestor_v1 /",
+    "arbitrum_attestor_v1 — or instantiate fails with InvalidProfileVersion.",
+    "",
+    "counterparty_client_id must equal the cosmos_to_l2 module's ics26_client_id: both",
+    "name the same client on the L2 ICS26Router. create-clients-eth registers the",
+    "SpectreClient under that id and the return subscriber filters L2 events on it.",
+    "",
+    "l2_chain_id below is Arbitrum Sepolia (421614); the local Nitro devnet is 412346.",
+    "",
+    "l2_chain_id must be the chain l2_rpc_url actually serves. Both",
+    "`create-clients-cosmos --l2-config` and `start` verify it against eth_chainId and",
+    "refuse to proceed on a mismatch; the create path also refuses when the endpoint",
+    "does not answer, because it is about to commit the profile into a client that",
+    "cannot be corrected afterwards. Nothing else reads the field - transactions take",
+    "their chain id from the RPC - so before these checks a wrong value relayed",
+    "happily against whatever chain the URL served."
+  ],
+  "wasm_checksum": "<hex checksum of the Arbitrum client wasm, printed by scripts/local/wasm_arb.sh>",
+  "l2_rpc_url": "http://127.0.0.1:8547",
+  "attestors": {"public_keys": ["XZ+76qOWCo/r113X56pAXt0hi3AZpY9LU44nF4vCMmg="], "threshold": 1},
+  "rollup_profile": {
+    "common": {
+      "l2_chain_id": 421614,
+      "l2_router": "0x7777777777777777777777777777777777777777",
+      "commitment_slot": "0x1260944489272988d9df285149b5aa1b0f48f2136d6f416159f840a3e0747600",
+      "profile_version": "arbitrum_attestor_v1",
+      "l2_header_fork": "london"
+    }
+  },
+  "bootstrap_block": 0,
+  "counterparty_client_id": "arb-client-0"
+}

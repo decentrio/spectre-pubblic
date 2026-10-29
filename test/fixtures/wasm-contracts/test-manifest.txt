@@ -1,0 +1,164 @@
+# Expected outcomes are recorded per identifier
+rust:ethereum-light-client:membership::test::account_leaf_matches_legacy_storage_root_verification:pass
+rust:ethereum-light-client:membership::test::rejects_oversized_evm_proofs_before_trie_verification:pass
+rust:ethereum-light-client:membership::test::test_verify_membership:pass
+rust:ethereum-light-client:membership::test::test_verify_non_membership:pass
+rust:ethereum-light-client:sync_protocol_helpers::test::test_nomralize_merkle_branch:pass
+rust:ethereum-light-client:sync_protocol_helpers::test::test_normalize_merkle_branch_rejects_invalid_branch:pass
+rust:ethereum-light-client:sync_protocol_helpers::test::test_normalize_merkle_branch_with_no_extra:pass
+rust:ethereum-light-client:trie::test::rejects_untrusted_branch_lengths_without_panicking:pass
+rust:ethereum-light-client:trie::test::test_validate_merkle_branch_with_execution_payload:pass
+rust:ethereum-light-client:verify::test::oversized_update_fields_fail_before_bls_host_queries:pass
+rust:ethereum-light-client:verify::test::test_verify_header:pass
+rust:ethereum-trie-db:trie_db::tests::decoded_account_and_legacy_storage_root_check_share_the_same_proof:pass
+rust:ethereum-trie-db:trie_db_tests::malformed_or_empty_proofs_return_errors_without_panicking:pass
+rust:ethereum-types:consensus::domain::test::test_compute_domain:pass
+rust:ethereum-types:consensus::domain::test::test_compute_domain_with_union_data:pass
+rust:ethereum-types:consensus::fork::tests::compute_fork_version_ignores_unscheduled_fulu:pass
+rust:ethereum-types:consensus::fork::tests::compute_fork_version_selects_fulu_at_and_past_its_epoch:pass
+rust:ethereum-types:consensus::fork::tests::deserializes_without_fulu_to_never:pass
+rust:ethereum-types:consensus::sync_committee::test::test_has_sufficient_participants:pass
+rust:ethereum-types:consensus::sync_committee::test::test_sync_committee_tree_hash_root:pass
+rust:ethereum-types:consensus::sync_committee::test::test_validate_signature_supermajority:pass
+rust:tree_hash:fixed_trans:pass
+rust:tree_hash:fixed_union:pass
+rust:tree_hash:impls::test::arc:pass
+rust:tree_hash:impls::test::b256:pass
+rust:tree_hash:impls::test::bool:pass
+rust:tree_hash:impls::test::int_to_bytes:pass
+rust:tree_hash:merkle_hasher::test::depth:pass
+rust:tree_hash:merkle_hasher::test::full_trees:pass
+rust:tree_hash:merkle_hasher::test::incomplete_trees:pass
+rust:tree_hash:merkle_hasher::test::remaining_buffer:pass
+rust:tree_hash:merkle_hasher::test::too_many_leaves:pass
+rust:tree_hash:merkle_hasher::test::with_0_leaves:pass
+rust:tree_hash:merkle_hasher::test::with_leaves:pass
+rust:tree_hash:merkleize_padded::test::random_value::max_tree_depth_min_nodes:pass
+rust:tree_hash:merkleize_padded::test::random_value::zero_value_0_nodes:pass
+rust:tree_hash:merkleize_padded::test::random_value::zero_value_1_nodes:pass
+rust:tree_hash:merkleize_padded::test::random_value::zero_value_2_nodes:pass
+rust:tree_hash:merkleize_padded::test::random_value::zero_value_3_nodes:pass
+rust:tree_hash:merkleize_padded::test::random_value::zero_value_4_nodes:pass
+rust:tree_hash:merkleize_padded::test::random_value::zero_value_8_nodes:pass
+rust:tree_hash:merkleize_padded::test::random_value::zero_value_8_nodes_varying_min_length:pass
+rust:tree_hash:merkleize_padded::test::random_value::zero_value_9_nodes:pass
+rust:tree_hash:merkleize_padded::test::random_value::zero_value_range_of_nodes:pass
+rust:tree_hash:merkleize_padded::test::zero_value::max_tree_depth_min_nodes:pass
+rust:tree_hash:merkleize_padded::test::zero_value::zero_value_0_nodes:pass
+rust:tree_hash:merkleize_padded::test::zero_value::zero_value_1_nodes:pass
+rust:tree_hash:merkleize_padded::test::zero_value::zero_value_2_nodes:pass
+rust:tree_hash:merkleize_padded::test::zero_value::zero_value_3_nodes:pass
+rust:tree_hash:merkleize_padded::test::zero_value::zero_value_4_nodes:pass
+rust:tree_hash:merkleize_padded::test::zero_value::zero_value_8_nodes:pass
+rust:tree_hash:merkleize_padded::test::zero_value::zero_value_8_nodes_varying_min_length:pass
+rust:tree_hash:merkleize_padded::test::zero_value::zero_value_9_nodes:pass
+rust:tree_hash:merkleize_padded::test::zero_value::zero_value_range_of_nodes:pass
+rust:tree_hash:packages/ethereum/tree_hash/src/lib.rs - mix_in_selector (line 75):ignored
+rust:tree_hash:packages/ethereum/tree_hash/src/merkle_hasher.rs - merkle_hasher::MerkleHasher (line 105):ignored
+rust:tree_hash:packages/ethereum/tree_hash/src/merkle_hasher.rs - merkle_hasher::MerkleHasher (line 115):ignored
+rust:tree_hash:packages/ethereum/tree_hash/src/merkle_hasher.rs - merkle_hasher::MerkleHasher (line 75):ignored
+rust:tree_hash:packages/ethereum/tree_hash/src/merkle_hasher.rs - merkle_hasher::MerkleHasher (line 85):ignored
+rust:tree_hash:packages/ethereum/tree_hash/src/merkle_hasher.rs - merkle_hasher::MerkleHasher (line 95):ignored
+rust:tree_hash:packages/ethereum/tree_hash/src/merkle_hasher.rs - merkle_hasher::MerkleHasher::process_right_node (line 318):ignored
+rust:tree_hash:packed_encoding_example:pass
+rust:tree_hash:test::mix_length:pass
+rust:tree_hash:variable_trans:pass
+rust:tree_hash:variable_union:pass
+rust:l2-client:canonical_header_tests::hashes_the_canonical_prague_field_order_deterministically:pass
+rust:l2-client:canonical_header_tests::rejects_fields_from_a_later_fork:pass
+rust:l2-client:canonical_header_tests::rejects_partial_cancun_fields_and_oversized_extra_data:pass
+rust:l2-client:entrypoints_tests::host_paths_reject_conflicts_without_authenticated_attestations:pass
+rust:l2-client:entrypoints_tests::migrate_entrypoint_rotates_the_attestor_set_without_response_side_effects:pass
+rust:l2-client:entrypoints_tests::non_zero_delay_precedes_path_height_state_and_proof_validation:pass
+rust:l2-client:entrypoints_tests::status_bytes_and_frozen_update_outcome_are_stable:pass
+rust:l2-client:entrypoints_tests::verify_client_message_rejects_non_conflicting_misbehaviour_envelopes:pass
+rust:l2-client:entrypoints_tests::zero_delay_validates_height_and_state_before_path_and_proof:pass
+rust:l2-client:evm_proof_tests::rejects_excessive_node_count_and_size_before_traversal:pass
+rust:l2-client:evm_proof_tests::rejects_malformed_rlp_before_traversal:pass
+rust:l2-client:evm_proof_tests::rlp_encodes_decoded_storage_words_before_trie_lookup:pass
+rust:l2-client:msg_tests::decodes_misbehaviour_client_message_envelopes:pass
+rust:l2-client:msg_tests::decodes_the_flat_host_membership_payload:pass
+rust:l2-client:msg_tests::decodes_the_shared_go_to_rust_signed_client_message_fixture:pass
+rust:l2-client:msg_tests::decodes_unsupported_lifecycle_messages_without_losing_payloads:pass
+rust:l2-client:msg_tests::migrate_wire_is_strict_snake_case:pass
+rust:l2-client:msg_tests::serializes_host_result_wrappers:pass
+rust:l2-client:msg_tests::shared_signed_header_has_a_valid_indexed_certificate:pass
+rust:l2-client:msg_tests::unsigned_header_does_not_decode_as_signed_header:pass
+rust:l2-client:msg_tests::unsupported_operation_error_text_is_stable:pass
+rust:l2-client:packet_tests::accepts_router_binary_packet_paths:pass
+rust:l2-client:packet_tests::derives_the_solidity_mapping_slot_from_the_erc7201_namespace:pass
+rust:l2-client:packet_tests::matches_the_shared_solidity_storage_layout_fixture:pass
+rust:l2-client:packet_tests::rejects_empty_commitment_paths:pass
+rust:l2-client:packet_tests::rejects_oversized_paths_and_values_before_hashing_or_trie_work:pass
+rust:l2-client:runtime_tests::bootstrap_rejects_zero_roots_and_wrong_profile_version:pass
+rust:l2-client:runtime_tests::constructs_explicit_update_effects_before_commit:pass
+rust:l2-client:runtime_tests::invalid_or_unserializable_attestor_replacement_is_atomic:pass
+rust:l2-client:runtime_tests::keep_attestors_is_byte_identical_and_replace_changes_only_the_inner_set:pass
+rust:l2-client:runtime_tests::legacy_profile_version_is_rejected_for_every_migration_without_writes:pass
+rust:l2-client:runtime_tests::missing_attestors_is_rejected_for_every_migration_without_writes:pass
+rust:l2-client:runtime_tests::only_explicit_authenticated_misbehaviour_freezes:pass
+rust:l2-client:runtime_tests::parent_links_are_checked_in_both_directions:pass
+rust:l2-client:runtime_tests::re_submitting_a_stored_block_is_ignored:pass
+rust:l2-client:runtime_tests::same_height_conflict_is_rejected_without_freezing_or_overwriting:pass
+rust:l2-client:runtime_tests::same_height_conflict_with_a_bad_parent_is_rejected_before_the_parent_check:pass
+rust:l2-client:runtime_tests::stores_higher_updates_and_historical_backfills_without_rewinding:pass
+rust:l2-client:runtime_tests::validates_every_update_effect_before_writing_any_of_them:pass
+rust:l2-client:state_tests::accepts_canonical_attestor_sets_at_both_bounds:pass
+rust:l2-client:state_tests::authentication_error_text_is_stable:pass
+rust:l2-client:state_tests::decodes_every_go_vector_byte_for_byte:pass
+rust:l2-client:state_tests::hashes_threshold_count_and_sorted_raw_keys:pass
+rust:l2-client:state_tests::rejects_every_noncanonical_attestor_set_shape:pass
+rust:l2-client:state_tests::v1_domain_and_statement_offsets_are_wire_locked:pass
+rust:l2-client:store_tests::stores_and_loads_revision_zero_envelopes:pass
+rust:l2-client:verification_tests::authenticates_one_of_one_and_two_of_three_before_router_proof:pass
+rust:l2-client:verification_tests::crypto_host_errors_and_false_share_one_stable_error:pass
+rust:l2-client:verification_tests::every_context_or_signature_mutation_fails_before_malformed_proof:pass
+rust:l2-client:verification_tests::misbehaviour_authenticates_both_certificates_before_either_proof:pass
+rust:l2-client:verification_tests::negative_fixture_names_every_locked_failure_and_precedence_case:pass
+rust:l2-client:verification_tests::rejects_certificate_structure_before_any_crypto_or_trie_work:pass
+rust:l2-client:verification_tests::rejects_zero_height_before_signature_or_trie_work:pass
+rust:l2-op-stack:tests::base_profile_preserves_current_payload_bytes:pass
+rust:l2-op-stack:tests::op_profile_preserves_current_payload_bytes:pass
+rust:l2-arbitrum:tests::profile_preserves_current_payload_bytes:pass
+rust:cw-ics08-wasm-op:contract::tests::composes_the_shared_kernel_with_the_op_profile:pass
+rust:cw-ics08-wasm-op:contract::tests::rejects_a_profile_for_a_different_artifact:pass
+rust:cw-ics08-wasm-base:contract::tests::composes_the_shared_kernel_with_the_base_profile:pass
+rust:cw-ics08-wasm-base:contract::tests::rejects_a_profile_for_a_different_artifact:pass
+rust:cw-ics08-wasm-arbitrum:contract::tests::composes_the_shared_kernel_with_the_arbitrum_profile:pass
+rust:cw-ics08-wasm-arbitrum:contract::tests::rejects_a_profile_for_a_different_artifact:pass
+rust:cw-ics08-wasm-eth:contract::host_boundary_tests::ethereum_height_validation_precedes_state_and_proof_work:pass
+rust:cw-ics08-wasm-eth:contract::host_boundary_tests::invalid_instantiate_is_validated_before_any_write:pass
+rust:cw-ics08-wasm-eth:contract::host_boundary_tests::invalid_migration_is_validated_before_version_write:pass
+rust:cw-ics08-wasm-eth:contract::host_boundary_tests::malformed_numeric_bootstrap_is_rejected_without_panicking_or_writing:pass
+rust:cw-ics08-wasm-eth:contract::host_boundary_tests::non_zero_delay_precedes_height_state_and_proof_validation:pass
+rust:cw-ics08-wasm-eth:contract::host_boundary_tests::retained_execute_export_returns_a_typed_error:pass
+rust:cw-ics08-wasm-eth:contract::host_boundary_tests::unsupported_lifecycle_paths_return_typed_errors:pass
+rust:cw-ics08-wasm-eth:contract::tests::instantiate_tests::test_instantiate:pass
+rust:cw-ics08-wasm-eth:contract::tests::integration_tests::test_aggragate_sync_committee_collision:pass
+rust:cw-ics08-wasm-eth:contract::tests::integration_tests::test_ics20_transfer_from_ethereum_to_cosmos_flow:pass
+rust:cw-ics08-wasm-eth:contract::tests::integration_tests::test_invalid_sync_committee_size:pass
+rust:cw-ics08-wasm-eth:contract::tests::integration_tests::test_migrate_with_fork_parameters:pass
+rust:cw-ics08-wasm-eth:contract::tests::integration_tests::test_migrate_with_instantiate:pass
+rust:cw-ics08-wasm-eth:contract::tests::integration_tests::test_migrate_with_same_state_version:pass
+rust:cw-ics08-wasm-eth:query::tests::test_status:pass
+rust:cw-ics08-wasm-eth:query::tests::test_timestamp_at_height:pass
+rust:cw-ics08-wasm-eth:query::tests::test_verify_client_message:pass
+rust:cw-ics08-wasm-eth:query::tests::timestamp_at_height_rejects_nanosecond_overflow:pass
+rust:cw-ics08-wasm-eth:sudo::tests::test_misbehaviour:pass
+rust:cw-ics08-wasm-eth:test::migration::v1_2_0::test_migrate_from_v1_2_0:pass
+go:github.com/srdtrk/solidity-ibc-eureka/e2e/v8/wasm:TestOptimizedArtifactsConformToPinnedWasmVM:pass
+go:github.com/srdtrk/solidity-ibc-eureka/e2e/v8/wasm:TestPinnedHostVersions:pass
+solidity:test/solidity-ibc/WasmStorageLayoutCompatibility.t.sol:test_shared_wasm_storage_layout_fixture:pass
+# Fixture SHA-256
+0a8b5a7fba4807d22ea7a4f9eab2ec9bd9c06f65bbd2a34f9c63519f4126a321  packages/ethereum/light-client/src/test_utils/fixtures/Test_ICS20TransferERC20TokenfromEthereumToCosmosAndBack.json
+6910e7790cdb7bce2c5a63c757438efa5d6bb127486a0aa026fa58067080dc7a  packages/ethereum/light-client/src/test_utils/fixtures/Test_TimeoutPacketFromCosmos.json
+71475fb7d433f009b628d043685a05ce0f062c29768dc69a549bd1ed3c270372  packages/l2-arbitrum/config/arbitrum-sepolia.json
+a73037b8398a6020cba0f71dcbd0a83a6100d2abe3f7e5fd801098a568a15ec6  packages/l2-op-stack/config/base-sepolia.json
+4a78c5cd8fe5fc35f43f47b428e97d2e6f228c6d61cc6c0a01646f99d3c81e45  packages/l2-op-stack/config/op-sepolia.json
+c0a62776431ed15daea35e5561d26d964b513ebc4fdf7c3b67c5c6bc6830c1ac  test/fixtures/wasm-contracts/l2-attestation-negative.json
+4c3a2c472e455eb1cd10115f66a1293d6f41a9bee3f1de89df892a4a8ea85577  test/fixtures/wasm-contracts/l2-attestation-vectors.json
+2400fa259776ca6a455748d6a347f718eca40d30ed0d33d10dd93cdf99a116cd  test/fixtures/wasm-contracts/l2-client-message-unsigned.json
+a84cd02fcea647aac3d293b68a0c4b69d4f236be79bb8281f4a709ac6e38071a  test/fixtures/wasm-contracts/l2-client-message.json
+abef2d8172de92324bbd89225c4ac8c9730bb1ab32018713ce62b18bb0ba4987  test/fixtures/wasm-contracts/solidity-storage-layout.json
+dd435c72d8386cda8c56025bf1c577df637cbbc89c5529f90ea8247c4a45d1e8  test/fixtures/wasm-contracts/wasm-interface.json
+6a50af3dabc027d1dbabf61acee35852e535e73139981208da906f4b314001fa  test/fixtures/wasm-contracts/wasmvm-gas-baseline.json

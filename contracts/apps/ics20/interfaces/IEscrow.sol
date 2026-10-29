@@ -1,0 +1,54 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.28;
+
+import { IERC20 } from "@openzeppelin-contracts/token/ERC20/IERC20.sol";
+import { IMintableAndBurnable } from "contracts/apps/ics20/interfaces/IMintableAndBurnable.sol";
+
+/// @title Escrow Contract Interface
+/// @notice The interface for locking tokens in escrow in ICS20
+interface IEscrow {
+    /// @notice Send tokens to the specified address
+    /// @dev This function can only be called by the ICS20 contract
+    /// @param token The token to send
+    /// @param to The address to send the tokens to
+    /// @param amount The amount of tokens to send
+    function send(IERC20 token, address to, uint256 amount) external;
+
+    /// @notice Send tokens as a refund, bypassing the rate limit
+    /// @dev Refunds return previously-escrowed funds and should not consume outbound capacity.
+    ///      Only callable by the ICS20 contract.
+    /// @param token The token to send
+    /// @param to The address to send the tokens to
+    /// @param amount The amount of tokens to send
+    /// @param usageToRestore The usage removed when the matching deposit was received
+    function sendRefund(IERC20 token, address to, uint256 amount, uint256 usageToRestore) external;
+
+    /// @notice Burn the escrow's own balance of the specified token
+    /// @dev This function can only be called by the ICS20 contract.
+    /// @param token The token to burn
+    /// @param amount The amount of tokens to burn
+    function burn(IMintableAndBurnable token, uint256 amount) external;
+
+    /// @notice Received tokens from the specified address
+    /// @dev This function can only be called by the ICS20 contract
+    /// @param token The token received
+    /// @param from The address that sent the tokens
+    /// @param amount The amount of tokens received
+    /// @return usageRemoved The amount of rate-limit usage removed by this deposit
+    function recvCallback(address token, address from, uint256 amount) external returns (uint256 usageRemoved);
+
+    /// @notice Get the ICS20 contract address
+    /// @return The ICS20 contract address
+    function ics20() external view returns (address);
+
+    /// @notice Initializes the IBCERC20 contract
+    /// @dev This initializes the contract to the latest version from an empty state
+    /// @param ics20_ The ICS20 contract address, can send funds from the escrow
+    /// @param authority The address of the AccessManager contract
+    function initialize(address ics20_, address authority) external;
+
+    /// @notice Reinitializes the RateLimit contract
+    /// @dev This initializes the contract to the latest version from a previous version
+    /// @dev Requires ICS20Transfer to have been initialized to the latest version
+    function initializeV2() external;
+}

@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "mutation": "ICS26Router ABI selector/event/error/tuple digest",
+  "expected": "rejected"
+}

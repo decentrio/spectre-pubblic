@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "mutation": "semantic ABI or embedded bytecode digest",
+  "expected": "rejected"
+}

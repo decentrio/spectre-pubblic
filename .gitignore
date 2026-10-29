@@ -1,0 +1,109 @@
+
+# Prover binary artifacts (large files). The circuit and its setup tool live in the
+# spectre-prover repository; scripts/solidity/build-prover-artifacts.sh drives it and
+# publishes only Groth16Verifier_N{N}.sol here. relayer/bin/ below keeps ignoring keys left
+# there by an older layout.
+# Groth16Verifier_N4.sol is deliberately not listed: it is committed so everyone deploys the
+# same verifier. It must stay paired with the prover key it was generated from; replace it only
+# together with that key (and redeploy + setBucket).
+contracts/verifiers/Groth16Verifier_N8.sol
+contracts/verifiers/Groth16Verifier_N16.sol
+contracts/verifiers/Groth16Verifier_N32.sol
+contracts/verifiers/Groth16Verifier_N64.sol
+contracts/verifiers/Groth16Verifier_N128.sol
+# directories
+cache
+coverage
+node_modules
+out
+bin
+
+# files
+*.env
+*.log
+.DS_Store
+.pnp.*
+lcov.info
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+soljson-latest.js
+config.json
+# Filled-in l2-config for a real deployment: real router address, real wasm
+# checksum, real endpoints. The *.example.json templates are the tracked ones.
+relayer/*-l2-config.json
+!relayer/*-l2-config.example.json
+scripts/ethgenesis/client_state.json
+scripts/ethgenesis/consensus_state.json
+.envrc
+
+# broadcasts
+!broadcast
+broadcast/*
+broadcast/*/31337/
+
+# ide files
+.idea/
+*.iml
+*.code-workspace
+
+# contract temp data
+contracts/data/
+
+# Rust
+target
+artifacts
+bacon.toml
+.bacon-locations
+
+# Config files and test artifacts
+programs/relayer/config.json
+scripts/genesis.json
+network_params.yaml
+
+# Go relayer build artifacts
+relayer/bin/
+relayer/relayer
+.gocache/
+
+# Local Vietnamese design notes
+docs/*_VI.md
+
+.state
+.spectre-state/
+*.pid
+# Local OP attestor / devnet runtime state (scripts/local/run_op_attestor.sh, run_op_stack.sh)
+attestor/optimism/attestor
+.op-attestor-run/
+# Evidence kept by scripts/local/test_attestor_lifecycle_e2e.sh for a failed phase
+.attestor-e2e-evidence/
+.op-devnet-run/
+# Local Arbitrum-on-shared-Kurtosis-L1 runtime state
+.arbitrum-devnet-run/
+# Local Arbitrum verifier replica + attestor runtime state
+.arbitrum-attestor-run/
+attestor/arbitrum/data/
+# Local Ethereum devnet endpoint handoff (scripts/local/run_eth_node.sh)
+.eth-devnet-run/
+# L2 contract address handoff from forge to bash (scripts/local/deploy_l2_contracts.sh)
+.l2-deployment.json
+# Local Base devnet runtime state (scripts/local/run_base_node.sh)
+.base-attestor-run/
+.base-devnet-run/
+.base-devnet-run-recovery/
+# Address handoff written by scripts/local/deploy_l2_contracts.sh for create-clients-eth
+.l2-deployment.json
+# Gov proposal scratch file rewritten by every scripts/local/wasm*.sh run
+proposal.json
+
+.agents/
+.specify/
+specs/
+.artifacts/solidity/
+.artifacts/native/
+
+# Merge/patch backups. `patch` writes <file>.orig and <file>.rej beside the file
+# it edits, and a blanket `git add <dir>` sweeps them in -- which is how an
+# 805-line stale copy of subscriber/cosmos.go reached main in #457.
+*.orig
+*.rej

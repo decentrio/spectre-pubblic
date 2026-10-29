@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "mutation": "missing generated N4 provenance or protected-source drift",
+  "expected": "rejected"
+}

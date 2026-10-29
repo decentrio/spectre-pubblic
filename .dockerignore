@@ -1,0 +1,11 @@
+.git/
+target/
+artifacts/
+cache/
+coverage/
+node_modules/
+*.log
+.env*
+specs/
+.specify/
+.agents/

@@ -1,0 +1,41 @@
+{
+  "modules": [
+    {
+      "name": "cosmos-to-eth",
+      "src_chain": "cosmos",
+      "dst_chain": "ethereum",
+      "config": {
+        "cosmos_wasm_client_id": "",
+        "eth_rpc_url": "http://127.0.0.1:59619",
+        "eth_ws_url": "ws://127.0.0.1:59620",
+        "fetch_timeout": 15,
+        "spectre_client": "",
+        "ics26_address": "0x80741a37e3644612f0465145c9709a90b6d77ee3",
+        "ics26_client_id": "cosmoshub-1",
+        "membership": "0x1adb9959eb142be128e6dfecc8d571f07cd66dee",
+        "misbehaviour": "0xb965d10739e19a9158e7f713720b0145d996e370",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "clock_drift": 60,
+        "beacon_finality_retries": 90,
+        "app_hash_wait_retries": 30,
+        "app_hash_wait_interval_seconds": 1,
+        "update_client": "0x086f77c5686dfe3f2f8fe487c5f8d357952c8556",
+        "signature_verifier": "0x703848f4c85f18e3acd8196c8ec91eb0b7bd0797",
+        "rotation_threshold": "5/6",
+        "router_deploy_block": 0
+      }
+    },
+    {
+      "name": "eth-to-cosmos",
+      "src_chain": "ethereum",
+      "dst_chain": "cosmos",
+      "config": {
+        "eth_beacon_api_url": "http://127.0.0.1:59717"
+      }
+    }
+  ],
+  "batch": {
+    "batch_period_seconds": 3,
+    "batch_size": 5
+  }
+}

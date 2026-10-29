@@ -1,0 +1,65 @@
+{
+  "modules": [
+    {
+      "name": "cosmos-to-base",
+      "src_chain": "cosmos",
+      "dst_chain": "opstack",
+      "config": {
+        "cosmos_wasm_client_id": "08-wasm-1",
+        "eth_rpc_url": "http://127.0.0.1:54120",
+        "eth_ws_url": "ws://127.0.0.1:54121",
+        "fetch_timeout": 15,
+        "spectre_client": "0x85cB33Fc344275709c0c194Bc7D1c5C32736C8B9",
+        "ics26_address": "0x9f5eac3d8e082f47631f1551f1343f23cd427162",
+        "ics26_client_id": "base-client-0",
+        "membership": "0x422a3492e218383753d8006c7bfa97815b44373f",
+        "misbehaviour": "0x9f9f5fd89ad648f2c000c954d8d9c87743243ec5",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "clock_drift": 60,
+        "app_hash_wait_retries": 30,
+        "app_hash_wait_interval_seconds": 1,
+        "update_client": "0x0643d39d47cf0ea95dbea69bf11a7f8c4bc34968",
+        "signature_verifier": "0xb4b46bdaa835f8e4b4d8e208b6559cd267851051",
+        "rotation_threshold": "5/6"
+      }
+    },
+    {
+      "name": "base-to-cosmos",
+      "src_chain": "opstack",
+      "dst_chain": "cosmos",
+      "config": {
+        "l2_rpc_url": "http://127.0.0.1:54120",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "attestor_endpoints": [
+          {
+            "address": "127.0.0.1:3101",
+            "attestor_index": 0
+          }
+        ],
+        "attestor_src_chain": "basedev",
+        "attestors": {
+          "public_keys": [
+            "XZ+76qOWCo/r113X56pAXt0hi3AZpY9LU44nF4vCMmg="
+          ],
+          "threshold": 1
+        },
+        "l2_wasm_client_id": "08-wasm-1",
+        "l2_ics26_client_id": "base-client-0",
+        "head_kind": "unsafe",
+        "rollup_profile": {
+          "common": {
+            "l2_chain_id": 84538453,
+            "l2_router": "0x9f5eac3d8e082f47631f1551f1343f23cd427162",
+            "commitment_slot": "0x1260944489272988d9df285149b5aa1b0f48f2136d6f416159f840a3e0747600",
+            "profile_version": "base_attestor_v1",
+            "l2_header_fork": "prague"
+          }
+        }
+      }
+    }
+  ],
+  "batch": {
+    "batch_period_seconds": 3,
+    "batch_size": 5
+  }
+}

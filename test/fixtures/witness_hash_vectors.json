@@ -1,0 +1,113 @@
+{
+  "count": 4,
+  "vectors": [
+    {
+      "name": "bucket16_noRound_mixedSlots",
+      "height": 53,
+      "round": 0,
+      "blockIdHash": "0xb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecf",
+      "pubkeys": [
+        "0x0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+        "0x08090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+        "0x0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e",
+        "0x161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435",
+        "0x1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c",
+        "0x2425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f40414243",
+        "0x2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a",
+        "0x32333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f5051",
+        "0x393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758",
+        "0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+        "0x4748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f60616263646566",
+        "0x4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d",
+        "0x55565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f7071727374",
+        "0x5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b",
+        "0x636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182",
+        "0x6a6b6c6d6e6f707172737475767778797a7b7c7d7e7f80818283848586878889"
+      ],
+      "active": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "witnessHash": "0x26522df850357fe4d8a0d0679d835e121b375a5874a4bdb052cf37c8ef594e61"
+    },
+    {
+      "name": "bucket8_round_wideHeight_twoByteVarint",
+      "height": 72623859790382856,
+      "round": 7,
+      "blockIdHash": "0xa8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7",
+      "pubkeys": [
+        "0x0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+        "0x08090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+        "0x0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e",
+        "0x161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435",
+        "0x1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c",
+        "0x2425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f40414243",
+        "0x2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a",
+        "0x32333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f5051"
+      ],
+      "active": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "witnessHash": "0xcd605bb53739fd74091bb42a3012514d829b9dec6ef6922aa3adc936e92b13e4"
+    },
+    {
+      "name": "bucket4_noRound_allActive",
+      "height": 1,
+      "round": 0,
+      "blockIdHash": "0xa4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3",
+      "pubkeys": [
+        "0x0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+        "0x08090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+        "0x0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e",
+        "0x161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435"
+      ],
+      "active": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "witnessHash": "0xc00f151ebacc596db71e50ef6ed447a3d9fec603898414ac834112927aa31184"
+    },
+    {
+      "name": "bucket4_round_singleSigner",
+      "height": 999999,
+      "round": 1,
+      "blockIdHash": "0xa4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3",
+      "pubkeys": [
+        "0x0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+        "0x08090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021222324252627",
+        "0x0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e",
+        "0x161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435"
+      ],
+      "active": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "witnessHash": "0xd9019afd746531c5961da626a6f60972f54de1849069d68357dfb657ad367321"
+    }
+  ]
+}

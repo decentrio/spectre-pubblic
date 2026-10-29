@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "mutation": "artifact source does not match fully qualified manifest source",
+  "expected": "rejected"
+}

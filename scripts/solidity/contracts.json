@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "artifact_root": "out",
+  "abigen_version": "1.17.3-stable",
+  "contracts": [
+    {
+      "name": "ICS26Router",
+      "source": "contracts/core/ICS26Router.sol",
+      "fqn": "contracts/core/ICS26Router.sol:ICS26Router",
+      "abi": "abi/ICS26Router.json",
+      "shared_binding": "packages/go-abigen/ics26router/contract.go",
+      "relayer_binding": "relayer/bindings/ICS26Router/binding.go"
+    },
+    {
+      "name": "ICS20Transfer",
+      "source": "contracts/apps/ics20/ICS20Transfer.sol",
+      "fqn": "contracts/apps/ics20/ICS20Transfer.sol:ICS20Transfer",
+      "abi": "abi/ICS20Transfer.json",
+      "shared_binding": "packages/go-abigen/ics20transfer/contract.go",
+      "relayer_binding": "relayer/bindings/ICS20Transfer/binding.go"
+    },
+    {
+      "name": "SpectreClient",
+      "source": "contracts/light-clients/spectre/SpectreClient.sol",
+      "fqn": "contracts/light-clients/spectre/SpectreClient.sol:SpectreClient",
+      "abi": "abi/SpectreClient.json",
+      "shared_binding": "packages/go-abigen/spectreclient/contract.go",
+      "relayer_binding": "relayer/bindings/SpectreClient/binding.go"
+    },
+    {
+      "name": "IBCERC20",
+      "source": "contracts/apps/ics20/IBCERC20.sol",
+      "fqn": "contracts/apps/ics20/IBCERC20.sol:IBCERC20",
+      "abi": "abi/IBCERC20.json",
+      "shared_binding": "packages/go-abigen/ibcerc20/contract.go",
+      "relayer_binding": null
+    },
+    {
+      "name": "RelayerHelper",
+      "source": "contracts/periphery/relayer/RelayerHelper.sol",
+      "fqn": "contracts/periphery/relayer/RelayerHelper.sol:RelayerHelper",
+      "abi": "abi/RelayerHelper.json",
+      "shared_binding": "packages/go-abigen/relayerhelper/contract.go",
+      "relayer_binding": null
+    },
+    {
+      "name": "Membership",
+      "source": "contracts/light-clients/spectre/modules/Membership.sol",
+      "fqn": "contracts/light-clients/spectre/modules/Membership.sol:Membership",
+      "abi": null,
+      "shared_binding": null,
+      "relayer_binding": "relayer/bindings/Membership/binding.go"
+    },
+    {
+      "name": "Misbehaviour",
+      "source": "contracts/light-clients/spectre/modules/Misbehaviour.sol",
+      "fqn": "contracts/light-clients/spectre/modules/Misbehaviour.sol:Misbehaviour",
+      "abi": null,
+      "shared_binding": null,
+      "relayer_binding": "relayer/bindings/Misbehaviour/binding.go"
+    },
+    {
+      "name": "UpdateClient",
+      "source": "contracts/light-clients/spectre/modules/UpdateClient.sol",
+      "fqn": "contracts/light-clients/spectre/modules/UpdateClient.sol:UpdateClient",
+      "abi": null,
+      "shared_binding": null,
+      "relayer_binding": "relayer/bindings/UpdateClient/binding.go"
+    },
+    {
+      "name": "ERC20",
+      "source": "node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol",
+      "fqn": "node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol:ERC20",
+      "abi": "abi/ERC20.json",
+      "shared_binding": "e2e/interchaintestv8/types/erc20/contract.go",
+      "relayer_binding": null
+    }
+  ]
+}

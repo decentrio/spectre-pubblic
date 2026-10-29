@@ -1,0 +1,28 @@
+name: E2E — Multichain
+
+# Manually-triggered matrix run of TestWithMultichainTestSuite (3-hop transfers
+# across ETH + two Cosmos chains). Heaviest setup (two Cosmos chains + ETH per
+# test). Delegates to the reusable e2e-suite.yml. Trigger from the Actions tab.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch/tag/SHA to run against (defaults to the triggering ref)
+        required: false
+        type: string
+      filter:
+        description: Optional method-name substring (e.g. "Transfer"). Empty runs all.
+        required: false
+        type: string
+
+jobs:
+  run:
+    uses: ./.github/workflows/e2e-suite.yml
+    secrets: inherit
+    with:
+      suite: TestWithMultichainTestSuite
+      ref: ${{ inputs.ref }}
+      filter: ${{ inputs.filter }}
+      # Two Cosmos chains + ETH per test — lowest concurrency, longest timeout.
+      max_parallel: 3
+      timeout_minutes: 90

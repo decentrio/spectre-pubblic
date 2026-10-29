@@ -1,0 +1,183 @@
+name: E2E suite (reusable)
+
+# Reusable matrix runner for one interchaintest suite. Per-suite caller
+# workflows (e2e-<suite>.yml) invoke this via `workflow_call`, so the heavy
+# setup (the spectre-prover checkout, Garaga FFI, Kurtosis pin, prover artifacts) lives in one
+# place instead of being copy-pasted per suite.
+#
+# Every method of the chosen suite (TestWith<Suite>/Test_*) rebuilds its own
+# environment from scratch (fresh Kurtosis enclave + Cosmos chain(s), redeploy,
+# create-clients) and shares no state, so they fan out across a matrix:
+# wall-clock collapses from sum-of-all-tests to slowest-single-test.
+on:
+  workflow_call:
+    inputs:
+      suite:
+        description: Suite entrypoint, e.g. TestWithEthCosmosTestSuite
+        required: true
+        type: string
+      ref:
+        description: Branch/tag/SHA to run against (defaults to the triggering ref)
+        required: false
+        type: string
+      filter:
+        description: Optional substring matched against the method name (e.g. "Timeout").
+        required: false
+        type: string
+      proof_type:
+        description: Proof type passed to E2E_PROOF_TYPE.
+        required: false
+        type: string
+      prover_ref:
+        description: Branch/tag/SHA of decentrio/spectre-prover to run against (default main).
+        required: false
+        type: string
+        default: groth16
+      max_parallel:
+        description: Max concurrent matrix jobs.
+        required: false
+        type: number
+        default: 6
+      timeout_minutes:
+        description: Per-test timeout (minutes).
+        required: false
+        type: number
+        default: 60
+
+jobs:
+  # Enumerate the chosen suite's exported Test_* methods straight from source so
+  # the matrix never drifts when tests are added/removed. The perl match keys off
+  # `func (recv *<Name>TestSuite) Test...()`; the entrypoint is always "TestWith"
+  # + the struct name. We keep only entries whose suite matches `inputs.suite`.
+  # Methods with args (helpers like DeployTest(ctx, ...)) are excluded by `()`.
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      tests: ${{ steps.list.outputs.tests }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+
+      - name: Discover ${{ inputs.suite }} test methods
+        id: list
+        env:
+          SUITE: ${{ inputs.suite }}
+          FILTER: ${{ inputs.filter }}
+        run: |
+          cd e2e/interchaintestv8
+          tests=$(perl -ne 'print "TestWith$1/$2\n" if /^func \([a-zA-Z_]+ \*([A-Za-z0-9_]+TestSuite)\) (Test[A-Za-z0-9_]+)\(\)/' *.go \
+            | grep -E "^${SUITE}/" \
+            | { if [ -n "$FILTER" ]; then grep -F "$FILTER"; else cat; fi; } \
+            | sort -u \
+            | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "Matrix ($(echo "$tests" | jq 'length') entries): $tests"
+          if [ "$tests" = "[]" ]; then
+            echo "::error::No tests matched suite '$SUITE' filter '$FILTER'"
+            exit 1
+          fi
+          echo "tests=$tests" >> "$GITHUB_OUTPUT"
+
+  e2e:
+    needs: discover
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ inputs.max_parallel }}
+      matrix:
+        test: ${{ fromJson(needs.discover.outputs.tests) }}
+    name: ${{ matrix.test }}
+    env:
+      # The prover, not the relayer, links the gnark forks (private Go modules): keep them
+      # off the public proxy and checksum DB when proverd and the setup tool are built.
+      GOPRIVATE: github.com/decentrio/*
+      # scripts/local/run_prover.sh and build-prover-artifacts.sh read the prover from here.
+      PROVER_REPO: ${{ github.workspace }}/spectre-prover
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+
+      # The prover repository and the private gnark modules it builds from need a token with
+      # read access to decentrio/spectre-prover, decentrio/gnark and decentrio/ecip-gnark
+      # (SUBMODULE_TOKEN secret, passed down via `secrets: inherit` from the caller workflow).
+      - name: Authenticate private gnark modules
+        run: |
+          git config --global url."https://x-access-token:${{ secrets.SUBMODULE_TOKEN }}@github.com/decentrio/gnark".insteadOf "https://github.com/decentrio/gnark"
+          git config --global url."https://x-access-token:${{ secrets.SUBMODULE_TOKEN }}@github.com/decentrio/ecip-gnark".insteadOf "https://github.com/decentrio/ecip-gnark"
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: relayer/go.mod
+          cache: true
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Check out spectre-prover
+        uses: actions/checkout@v4
+        with:
+          repository: decentrio/spectre-prover
+          ref: ${{ inputs.prover_ref || 'main' }}
+          token: ${{ secrets.SUBMODULE_TOKEN }}
+          path: spectre-prover
+
+      - name: Build Garaga FFI (libgaraga_rs)
+        working-directory: spectre-prover
+        run: scripts/build-garaga-ffi.sh
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          # Pinning avoids foundryup's "latest stable" GitHub API lookup, which
+          # has intermittently failed CI with 504s before tests even start.
+          version: v1.8.5
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: extractions/setup-just@v2
+
+      - name: Cache Bun packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Install JS deps (forge remappings / tooling)
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if bun install --frozen-lockfile; then
+              exit 0
+            fi
+            sleep $((attempt * 15))
+          done
+          bun install --frozen-lockfile
+
+      - name: Install Kurtosis
+        run: |
+          # Kurtosis' new apt repo. The legacy Gemfury repo
+          # (apt.fury.io/kurtosis-tech) is no longer maintained and tops out at
+          # 1.15.x, which can't serve the version the SDK expects.
+          echo "deb [trusted=yes] https://sdk.kurtosis.com/kurtosis-cli-release-artifacts/ /" \
+            | sudo tee /etc/apt/sources.list.d/kurtosis.list
+          sudo apt update
+          # Pin the CLI to the engine API version the interchaintest SDK expects
+          # (kurtosis/api/golang in e2e/interchaintestv8/go.mod); a newer/older CLI
+          # starts an engine whose API version mismatches and the suite aborts.
+          sudo apt install -y kurtosis-cli=1.20.0
+          kurtosis analytics disable
+          # The interchaintest suite connects to a running local Kurtosis engine
+          # (127.0.0.1:9710); the CLI does not auto-start it.
+          kurtosis engine start
+
+      - name: Run E2E test
+        # The just test-e2e recipe builds contracts, installs the relayer binary,
+        # generates the prover artifacts, starts proverd around the run, and runs
+        # interchaintest with ETH_TESTNET_TYPE=pos. The recipe anchors the selector
+        # with ^...$, so a full TestWith<Suite>/Test_* path runs exactly that one method.
+        # run_prover.sh puts libgaraga_rs on proverd's loader path itself.
+        env:
+          ETH_TESTNET_TYPE: pos
+          E2E_PROOF_TYPE: ${{ inputs.proof_type || 'groth16' }}
+        run: just test-e2e '${{ matrix.test }}'

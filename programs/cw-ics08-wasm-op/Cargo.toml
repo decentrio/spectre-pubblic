@@ -1,0 +1,16 @@
+[package]
+name = "cw-ics08-wasm-op"
+version = { workspace = true }
+edition = { workspace = true }
+repository = { workspace = true }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+l2-client = { workspace = true }
+l2-op-stack = { workspace = true }
+cosmwasm-std = { workspace = true, features = ["std", "stargate"] }
+
+[dev-dependencies]
+serde_json = { workspace = true }

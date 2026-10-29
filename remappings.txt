@@ -1,0 +1,4 @@
+forge-std/=node_modules/forge-std/src/
+@openzeppelin-contracts/=node_modules/@openzeppelin/contracts/
+@openzeppelin-upgradeable/=node_modules/@openzeppelin/contracts-upgradeable/
+@uniswap/permit2/=node_modules/@uniswap/permit2/

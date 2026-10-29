@@ -1,0 +1,129 @@
+{
+  "schema": "spectre_wasm_interface",
+  "raw": {
+    "ethereum": {
+      "imports": [
+        "env.abort:function",
+        "env.addr_canonicalize:function",
+        "env.addr_humanize:function",
+        "env.addr_validate:function",
+        "env.db_next:function",
+        "env.db_read:function",
+        "env.db_remove:function",
+        "env.db_scan:function",
+        "env.db_write:function",
+        "env.debug:function",
+        "env.ed25519_batch_verify:function",
+        "env.ed25519_verify:function",
+        "env.query_chain:function",
+        "env.secp256k1_recover_pubkey:function",
+        "env.secp256k1_verify:function"
+      ],
+      "exports": [
+        "allocate:function",
+        "deallocate:function",
+        "execute:function",
+        "instantiate:function",
+        "interface_version_8:function",
+        "memory:memory",
+        "migrate:function",
+        "query:function",
+        "requires_iterator:function",
+        "sudo:function"
+      ]
+    },
+    "l2": {
+      "imports": [
+        "env.abort:function",
+        "env.addr_canonicalize:function",
+        "env.addr_humanize:function",
+        "env.addr_validate:function",
+        "env.db_read:function",
+        "env.db_remove:function",
+        "env.db_write:function",
+        "env.debug:function",
+        "env.ed25519_batch_verify:function",
+        "env.ed25519_verify:function",
+        "env.query_chain:function",
+        "env.secp256k1_recover_pubkey:function",
+        "env.secp256k1_verify:function"
+      ],
+      "exports": [
+        "allocate:function",
+        "deallocate:function",
+        "instantiate:function",
+        "interface_version_8:function",
+        "memory:memory",
+        "migrate:function",
+        "query:function",
+        "requires_stargate:function",
+        "sudo:function"
+      ]
+    }
+  },
+  "optimized": {
+    "ethereum": {
+      "imports": [
+        "env.abort:function",
+        "env.addr_canonicalize:function",
+        "env.addr_humanize:function",
+        "env.addr_validate:function",
+        "env.db_next:function",
+        "env.db_read:function",
+        "env.db_remove:function",
+        "env.db_scan:function",
+        "env.db_write:function",
+        "env.debug:function",
+        "env.ed25519_batch_verify:function",
+        "env.ed25519_verify:function",
+        "env.query_chain:function",
+        "env.secp256k1_recover_pubkey:function",
+        "env.secp256k1_verify:function"
+      ],
+      "exports": [
+        "__data_end:global",
+        "__heap_base:global",
+        "allocate:function",
+        "deallocate:function",
+        "execute:function",
+        "instantiate:function",
+        "interface_version_8:function",
+        "memory:memory",
+        "migrate:function",
+        "query:function",
+        "requires_iterator:function",
+        "sudo:function"
+      ]
+    },
+    "l2": {
+      "imports": [
+        "env.abort:function",
+        "env.addr_canonicalize:function",
+        "env.addr_humanize:function",
+        "env.addr_validate:function",
+        "env.db_read:function",
+        "env.db_remove:function",
+        "env.db_write:function",
+        "env.debug:function",
+        "env.ed25519_batch_verify:function",
+        "env.ed25519_verify:function",
+        "env.query_chain:function",
+        "env.secp256k1_recover_pubkey:function",
+        "env.secp256k1_verify:function"
+      ],
+      "exports": [
+        "__data_end:global",
+        "__heap_base:global",
+        "allocate:function",
+        "deallocate:function",
+        "instantiate:function",
+        "interface_version_8:function",
+        "memory:memory",
+        "migrate:function",
+        "query:function",
+        "requires_stargate:function",
+        "sudo:function"
+      ]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+[package]
+name = "l2-arbitrum"
+description = "Static Arbitrum profile for the shared L2 Wasm client"
+version = { workspace = true }
+edition = { workspace = true }
+repository = { workspace = true }
+
+[dependencies]
+l2-client = { workspace = true }
+schemars = { workspace = true, features = ["derive"] }
+serde = { workspace = true, features = ["derive"] }
+
+[dev-dependencies]
+serde_json = { workspace = true }

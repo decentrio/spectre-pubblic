@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "mutation": "disallowed import edge, stale path, or file-primary-symbol mismatch",
+  "expected": "rejected"
+}

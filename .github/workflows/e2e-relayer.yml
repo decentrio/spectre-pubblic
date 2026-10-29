@@ -1,0 +1,30 @@
+name: E2E — Relayer
+
+# Manually-triggered matrix run of TestWithRelayerTestSuite (daemon-driven recv and
+# batched-ack flows in both directions: Test_{5,10}_RecvPacketToEth,
+# Test_{5,10}_BatchedAckPacketToEth, Test_10_RecvPacketToCosmos and
+# Test_10_BatchedAckPacketToCosmos). Delegates to the reusable e2e-suite.yml.
+# Heavy — trigger from the Actions tab.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch/tag/SHA to run against (defaults to the triggering ref)
+        required: false
+        type: string
+      filter:
+        description: Optional method-name substring (e.g. "RecvPacket", "ToCosmos"). Empty runs all.
+        required: false
+        type: string
+
+jobs:
+  run:
+    uses: ./.github/workflows/e2e-suite.yml
+    secrets: inherit
+    with:
+      suite: TestWithRelayerTestSuite
+      ref: ${{ inputs.ref }}
+      filter: ${{ inputs.filter }}
+      max_parallel: 6
+      # Per-test timeout in minutes; the reusable workflow's default is 60.
+      timeout_minutes: 75

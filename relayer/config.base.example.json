@@ -1,0 +1,56 @@
+{
+  "modules": [
+    {
+      "name": "cosmos-to-base",
+      "src_chain": "cosmos",
+      "dst_chain": "opstack",
+      "config": {
+        "cosmos_wasm_client_id": "",
+        "eth_rpc_url": "http://127.0.0.1:8545",
+        "eth_ws_url": "ws://127.0.0.1:8546",
+        "fetch_timeout": 15,
+        "spectre_client": "",
+        "ics26_address": "0xc4c2c590b1892c896d2655ae680bc1c79dd544f0",
+        "ics26_client_id": "base-client-0",
+        "membership": "0xbb624929295e6fbb16e85b5b5de563fd4dfc10a7",
+        "misbehaviour": "0x4dd250480bdddc7a533cb214d2d1067947420239",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "clock_drift": 60,
+        "app_hash_wait_retries": 30,
+        "app_hash_wait_interval_seconds": 1,
+        "update_client": "0x644261e1afec255ea8c7c0fabd65ff014e57c113",
+        "signature_verifier": "0x7112a3ef289bb2278df7787307f1eeb70aa09840",
+        "rotation_threshold": "5/6"
+      }
+    },
+    {
+      "name": "base-to-cosmos",
+      "src_chain": "opstack",
+      "dst_chain": "cosmos",
+      "config": {
+        "l2_rpc_url": "http://127.0.0.1:8545",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "attestor_endpoints": [{"address": "127.0.0.1:3003", "attestor_index": 0}],
+        "attestor_src_chain": "basedev",
+        "attestors": {"public_keys": ["XZ+76qOWCo/r113X56pAXt0hi3AZpY9LU44nF4vCMmg="], "threshold": 1},
+        "l2_wasm_client_id": "08-wasm-3",
+        "l2_ics26_client_id": "base-client-0",
+        "head_kind": "safe",
+        "router_deploy_block": 0,
+        "rollup_profile": {
+          "common": {
+            "l2_chain_id": 84538453,
+            "l2_router": "0xc4c2c590b1892c896d2655ae680bc1c79dd544f0",
+            "commitment_slot": "0x1260944489272988d9df285149b5aa1b0f48f2136d6f416159f840a3e0747600",
+            "profile_version": "base_attestor_v1",
+            "l2_header_fork": "prague"
+          }
+        }
+      }
+    }
+  ],
+  "batch": {
+    "batch_period_seconds": 3,
+    "batch_size": 5
+  }
+}

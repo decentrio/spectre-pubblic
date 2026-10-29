@@ -1,0 +1,50 @@
+{
+  "cw_ics08_wasm_arbitrum.wasm": {
+    "store_code": 267109080000,
+    "instantiate": 57805895,
+    "status": 22180655,
+    "delay_error": 23438725,
+    "verify_client_message": 181710010,
+    "verify_2_of_3": 225062795,
+    "verify_32_of_32": 1487598940,
+    "update_state": 248097730,
+    "membership": 71722155,
+    "migrate_keep": 24805275,
+    "migrate_replace": 37318935
+  },
+  "cw_ics08_wasm_base.wasm": {
+    "store_code": 267104880000,
+    "instantiate": 57682730,
+    "status": 22176170,
+    "delay_error": 23438725,
+    "verify_client_message": 200536545,
+    "verify_2_of_3": 243489475,
+    "verify_32_of_32": 1505919130,
+    "update_state": 266459665,
+    "membership": 71718590,
+    "migrate_keep": 24800790,
+    "migrate_replace": 37228085
+  },
+  "cw_ics08_wasm_eth.wasm": {
+    "store_code": 272195280000,
+    "instantiate": 88787445,
+    "status": 39466305,
+    "delay_error": 23740945,
+    "verify_client_message": 1099838065,
+    "update_state": 579871385,
+    "membership": 210259550
+  },
+  "cw_ics08_wasm_op.wasm": {
+    "store_code": 267102360000,
+    "instantiate": 57758400,
+    "status": 22264720,
+    "delay_error": 23438725,
+    "verify_client_message": 200614285,
+    "verify_2_of_3": 243546860,
+    "verify_32_of_32": 1506035625,
+    "update_state": 266621815,
+    "membership": 71807140,
+    "migrate_keep": 24889340,
+    "migrate_replace": 37312495
+  }
+}

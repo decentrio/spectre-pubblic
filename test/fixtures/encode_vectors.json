@@ -1,0 +1,543 @@
+{
+  "counts": {
+    "versions": 5,
+    "validators": 8,
+    "blockIds": 3,
+    "partSetHeaders": 3,
+    "timestamps": 7,
+    "cdcStrings": 5,
+    "cdcInt64s": 11,
+    "cdcBytes": 4,
+    "cdcBytes32s": 3,
+    "valSets": 4,
+    "headers": 9
+  },
+  "versions": [
+    {
+      "block": 11,
+      "app": 0,
+      "encoded": "0x080b"
+    },
+    {
+      "block": 11,
+      "app": 2,
+      "encoded": "0x080b1002"
+    },
+    {
+      "block": 1,
+      "app": 1,
+      "encoded": "0x08011001"
+    },
+    {
+      "block": 0,
+      "app": 0,
+      "encoded": "0x"
+    },
+    {
+      "block": 300,
+      "app": 129,
+      "encoded": "0x08ac02108101"
+    }
+  ],
+  "validators": [
+    {
+      "pubKey": "0xaaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9",
+      "votingPower": 0,
+      "encoded": "0x0a220a20aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9"
+    },
+    {
+      "pubKey": "0xaaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9",
+      "votingPower": 1,
+      "encoded": "0x0a220a20aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c91001"
+    },
+    {
+      "pubKey": "0xaaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9",
+      "votingPower": 100,
+      "encoded": "0x0a220a20aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c91064"
+    },
+    {
+      "pubKey": "0xaaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9",
+      "votingPower": 127,
+      "encoded": "0x0a220a20aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9107f"
+    },
+    {
+      "pubKey": "0xaaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9",
+      "votingPower": 128,
+      "encoded": "0x0a220a20aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9108001"
+    },
+    {
+      "pubKey": "0xaaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9",
+      "votingPower": 16384,
+      "encoded": "0x0a220a20aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c910808001"
+    },
+    {
+      "pubKey": "0xaaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9",
+      "votingPower": 1000000,
+      "encoded": "0x0a220a20aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c910c0843d"
+    },
+    {
+      "pubKey": "0xaaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9",
+      "votingPower": 1099511627776,
+      "encoded": "0x0a220a20aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c910808080808020"
+    }
+  ],
+  "blockIds": [
+    {
+      "hash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "total": 1,
+      "partSetHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "encoded": "0x0a20202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f122408011220101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f"
+    },
+    {
+      "hash": "0x303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "total": 128,
+      "partSetHash": "0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+      "encoded": "0x0a20303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f12250880011220404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f"
+    },
+    {
+      "hash": "0xf0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f",
+      "total": 1048576,
+      "partSetHash": "0x0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+      "encoded": "0x0a20f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f12260880804012200102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20"
+    }
+  ],
+  "partSetHeaders": [
+    {
+      "total": 1,
+      "hash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "encoded": "0x08011220101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f"
+    },
+    {
+      "total": 128,
+      "hash": "0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+      "encoded": "0x0880011220404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f"
+    },
+    {
+      "total": 1048576,
+      "hash": "0x0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+      "encoded": "0x0880804012200102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20"
+    }
+  ],
+  "timestamps": [
+    {
+      "nanos": 0,
+      "encoded": "0x"
+    },
+    {
+      "nanos": 1,
+      "encoded": "0x1001"
+    },
+    {
+      "nanos": 999999999,
+      "encoded": "0x10ff93ebdc03"
+    },
+    {
+      "nanos": 1000000000,
+      "encoded": "0x0801"
+    },
+    {
+      "nanos": 1700000000000000000,
+      "encoded": "0x0880e2cfaa06"
+    },
+    {
+      "nanos": 1704067200123456789,
+      "encoded": "0x088081c8ac0610959aef3a"
+    },
+    {
+      "nanos": 4102444800000000000,
+      "encoded": "0x0880ae99a40f"
+    }
+  ],
+  "cdcStrings": [
+    {
+      "value": "",
+      "encoded": "0x"
+    },
+    {
+      "value": "a",
+      "encoded": "0x0a0161"
+    },
+    {
+      "value": "test-chain",
+      "encoded": "0x0a0a746573742d636861696e"
+    },
+    {
+      "value": "cosmoshub-4",
+      "encoded": "0x0a0b636f736d6f736875622d34"
+    },
+    {
+      "value": "x-0123456789012345678901234567890123456789012345678",
+      "encoded": "0x0a33782d30313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738"
+    }
+  ],
+  "cdcInt64s": [
+    {
+      "value": 0,
+      "encoded": "0x"
+    },
+    {
+      "value": 1,
+      "encoded": "0x0801"
+    },
+    {
+      "value": 127,
+      "encoded": "0x087f"
+    },
+    {
+      "value": 128,
+      "encoded": "0x088001"
+    },
+    {
+      "value": 255,
+      "encoded": "0x08ff01"
+    },
+    {
+      "value": 256,
+      "encoded": "0x088002"
+    },
+    {
+      "value": 300,
+      "encoded": "0x08ac02"
+    },
+    {
+      "value": 12345,
+      "encoded": "0x08b960"
+    },
+    {
+      "value": 16384,
+      "encoded": "0x08808001"
+    },
+    {
+      "value": 1000000,
+      "encoded": "0x08c0843d"
+    },
+    {
+      "value": 1099511627776,
+      "encoded": "0x08808080808020"
+    }
+  ],
+  "cdcBytes": [
+    {
+      "value": "0x",
+      "encoded": "0x"
+    },
+    {
+      "value": "0x01",
+      "encoded": "0x0a0101"
+    },
+    {
+      "value": "0x0000000000000000000000000000000000000000",
+      "encoded": "0x0a140000000000000000000000000000000000000000"
+    },
+    {
+      "value": "0xabababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab",
+      "encoded": "0x0a8201abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab"
+    }
+  ],
+  "cdcBytes32s": [
+    {
+      "value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "encoded": "0x0a200000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "value": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "encoded": "0x0a20505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f"
+    },
+    {
+      "value": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "encoded": "0x0a20ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    }
+  ],
+  "valSets": [
+    {
+      "name": "single",
+      "pubKeys": [
+        "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf"
+      ],
+      "votingPowers": [
+        10
+      ],
+      "hash": "0xc3a21b3c17d35c08b6c4f97e74ff707b03cfd520f7c5e7bb762165bef6e47f7a"
+    },
+    {
+      "name": "two",
+      "pubKeys": [
+        "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+        "0xa3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2"
+      ],
+      "votingPowers": [
+        100,
+        200
+      ],
+      "hash": "0xcdd8cdd723363497c1e1b576fb59829b5708ad8b7449bc1b49d1d775593f0cfc"
+    },
+    {
+      "name": "three_mixedWidths",
+      "pubKeys": [
+        "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+        "0xa3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2",
+        "0xa6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5"
+      ],
+      "votingPowers": [
+        1,
+        128,
+        1099511627776
+      ],
+      "hash": "0x2486c9bddc1a1508cf5907516478d86b5dc34f92fe02d09413213e60d3043473"
+    },
+    {
+      "name": "five",
+      "pubKeys": [
+        "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+        "0xa3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2",
+        "0xa6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5",
+        "0xa9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8",
+        "0xacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacb"
+      ],
+      "votingPowers": [
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "hash": "0xc17dae51dc4b1b7c4edf37a1cbe31bf665ce90e3a2d113f6539a2bd279f77ad7"
+    }
+  ],
+  "headers": [
+    {
+      "name": "full",
+      "versionBlock": 11,
+      "versionApp": 0,
+      "chainId": "cosmoshub-4",
+      "height": 12345,
+      "timeNanos": 1700000000000000000,
+      "hasLastBlockId": true,
+      "lastBlockIdHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "lastPartSetTotal": 1,
+      "lastPartSetHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasLastCommitHash": true,
+      "lastCommitHash": "0x303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "hasDataHash": true,
+      "dataHash": "0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+      "validatorsHash": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "nextValidatorsHash": "0x606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f",
+      "consensusHash": "0x707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+      "appHash": "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+      "hasLastResultsHash": true,
+      "lastResultsHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasEvidenceHash": true,
+      "evidenceHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "proposerAddress": "0xf0f1f2f3f4f5f6f7f8f9fafbfcfdfeff00010203",
+      "hash": "0x94db05d2ad72b0ad975ce0b1a832c5cd4b7bfdc40008a93a815509b12cfebc20"
+    },
+    {
+      "name": "optionalHashesAbsent",
+      "versionBlock": 11,
+      "versionApp": 0,
+      "chainId": "cosmoshub-4",
+      "height": 12345,
+      "timeNanos": 1700000000000000000,
+      "hasLastBlockId": true,
+      "lastBlockIdHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "lastPartSetTotal": 1,
+      "lastPartSetHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasLastCommitHash": false,
+      "lastCommitHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "hasDataHash": false,
+      "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "validatorsHash": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "nextValidatorsHash": "0x606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f",
+      "consensusHash": "0x707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+      "appHash": "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+      "hasLastResultsHash": false,
+      "lastResultsHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "hasEvidenceHash": false,
+      "evidenceHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "proposerAddress": "0xf0f1f2f3f4f5f6f7f8f9fafbfcfdfeff00010203",
+      "hash": "0xe380920df13b7f4485c5584f8d62effc10712e3fd8f3f6f48f75c93313a695f2"
+    },
+    {
+      "name": "zeroAppHash",
+      "versionBlock": 11,
+      "versionApp": 0,
+      "chainId": "cosmoshub-4",
+      "height": 12345,
+      "timeNanos": 1700000000000000000,
+      "hasLastBlockId": true,
+      "lastBlockIdHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "lastPartSetTotal": 1,
+      "lastPartSetHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasLastCommitHash": true,
+      "lastCommitHash": "0x303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "hasDataHash": true,
+      "dataHash": "0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+      "validatorsHash": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "nextValidatorsHash": "0x606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f",
+      "consensusHash": "0x707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+      "appHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "hasLastResultsHash": true,
+      "lastResultsHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasEvidenceHash": true,
+      "evidenceHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "proposerAddress": "0xf0f1f2f3f4f5f6f7f8f9fafbfcfdfeff00010203",
+      "hash": "0x990294b28a66a35d17ab3bcc8944cc6bb7a9f8f53e3fbc1fe34c1a03861fd22a"
+    },
+    {
+      "name": "wideHeightFractionalTimeAppVersion",
+      "versionBlock": 11,
+      "versionApp": 2,
+      "chainId": "a-chain-id-that-is-fifty-characters-long-0123456789ab",
+      "height": 1099511627777,
+      "timeNanos": 1704067200123456789,
+      "hasLastBlockId": true,
+      "lastBlockIdHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "lastPartSetTotal": 1,
+      "lastPartSetHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasLastCommitHash": true,
+      "lastCommitHash": "0x303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "hasDataHash": true,
+      "dataHash": "0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+      "validatorsHash": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "nextValidatorsHash": "0x606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f",
+      "consensusHash": "0x707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+      "appHash": "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+      "hasLastResultsHash": true,
+      "lastResultsHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasEvidenceHash": true,
+      "evidenceHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "proposerAddress": "0xf0f1f2f3f4f5f6f7f8f9fafbfcfdfeff00010203",
+      "hash": "0x65f7c7da4bf04d3495b1be1aeec8efd8b54868b802d34293940f7ee82bb37eff"
+    },
+    {
+      "name": "nextValidatorsEqualsValidators",
+      "versionBlock": 11,
+      "versionApp": 0,
+      "chainId": "cosmoshub-4",
+      "height": 12345,
+      "timeNanos": 1700000000000000000,
+      "hasLastBlockId": true,
+      "lastBlockIdHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "lastPartSetTotal": 1,
+      "lastPartSetHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasLastCommitHash": true,
+      "lastCommitHash": "0x303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "hasDataHash": true,
+      "dataHash": "0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+      "validatorsHash": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "nextValidatorsHash": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "consensusHash": "0x707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+      "appHash": "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+      "hasLastResultsHash": true,
+      "lastResultsHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasEvidenceHash": true,
+      "evidenceHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "proposerAddress": "0xf0f1f2f3f4f5f6f7f8f9fafbfcfdfeff00010203",
+      "hash": "0xb1308db34979d6aa3f67ca9a6a51b3bebc6cdd106de8e8110120f22fecccd60f"
+    },
+    {
+      "name": "onlyLastCommitHashAbsent",
+      "versionBlock": 11,
+      "versionApp": 0,
+      "chainId": "cosmoshub-4",
+      "height": 12345,
+      "timeNanos": 1700000000000000000,
+      "hasLastBlockId": true,
+      "lastBlockIdHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "lastPartSetTotal": 1,
+      "lastPartSetHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasLastCommitHash": false,
+      "lastCommitHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "hasDataHash": true,
+      "dataHash": "0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+      "validatorsHash": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "nextValidatorsHash": "0x606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f",
+      "consensusHash": "0x707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+      "appHash": "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+      "hasLastResultsHash": true,
+      "lastResultsHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasEvidenceHash": true,
+      "evidenceHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "proposerAddress": "0xf0f1f2f3f4f5f6f7f8f9fafbfcfdfeff00010203",
+      "hash": "0xcb40181650d31f237c8caeb861b832b7b4f64235209b4e1a4e5dd614b5aea706"
+    },
+    {
+      "name": "onlyDataHashAbsent",
+      "versionBlock": 11,
+      "versionApp": 0,
+      "chainId": "cosmoshub-4",
+      "height": 12345,
+      "timeNanos": 1700000000000000000,
+      "hasLastBlockId": true,
+      "lastBlockIdHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "lastPartSetTotal": 1,
+      "lastPartSetHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasLastCommitHash": true,
+      "lastCommitHash": "0x303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "hasDataHash": false,
+      "dataHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "validatorsHash": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "nextValidatorsHash": "0x606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f",
+      "consensusHash": "0x707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+      "appHash": "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+      "hasLastResultsHash": true,
+      "lastResultsHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasEvidenceHash": true,
+      "evidenceHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "proposerAddress": "0xf0f1f2f3f4f5f6f7f8f9fafbfcfdfeff00010203",
+      "hash": "0x1a6d8ca753eb12be9f7b4cf31b8bbdca5116ab343f5ea1c9d1206f98bb7e3f2f"
+    },
+    {
+      "name": "onlyLastResultsHashAbsent",
+      "versionBlock": 11,
+      "versionApp": 0,
+      "chainId": "cosmoshub-4",
+      "height": 12345,
+      "timeNanos": 1700000000000000000,
+      "hasLastBlockId": true,
+      "lastBlockIdHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "lastPartSetTotal": 1,
+      "lastPartSetHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasLastCommitHash": true,
+      "lastCommitHash": "0x303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "hasDataHash": true,
+      "dataHash": "0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+      "validatorsHash": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "nextValidatorsHash": "0x606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f",
+      "consensusHash": "0x707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+      "appHash": "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+      "hasLastResultsHash": false,
+      "lastResultsHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "hasEvidenceHash": true,
+      "evidenceHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "proposerAddress": "0xf0f1f2f3f4f5f6f7f8f9fafbfcfdfeff00010203",
+      "hash": "0xe29c0bf1e5bacdd4ef267556f92c2c8b29b67f2525d4c40d0c60b8e9c82033a6"
+    },
+    {
+      "name": "onlyEvidenceHashAbsent",
+      "versionBlock": 11,
+      "versionApp": 0,
+      "chainId": "cosmoshub-4",
+      "height": 12345,
+      "timeNanos": 1700000000000000000,
+      "hasLastBlockId": true,
+      "lastBlockIdHash": "0x202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+      "lastPartSetTotal": 1,
+      "lastPartSetHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasLastCommitHash": true,
+      "lastCommitHash": "0x303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+      "hasDataHash": true,
+      "dataHash": "0x404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+      "validatorsHash": "0x505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f",
+      "nextValidatorsHash": "0x606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f",
+      "consensusHash": "0x707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+      "appHash": "0xa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+      "hasLastResultsHash": true,
+      "lastResultsHash": "0x101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+      "hasEvidenceHash": false,
+      "evidenceHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "proposerAddress": "0xf0f1f2f3f4f5f6f7f8f9fafbfcfdfeff00010203",
+      "hash": "0x0da86c52cc0dad65c94f55616db2b6d60366a9be4b5a70c9255e629295439a39"
+    }
+  ]
+}

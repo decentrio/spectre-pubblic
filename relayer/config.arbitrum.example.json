@@ -1,0 +1,58 @@
+{
+  "modules": [
+    {
+      "name": "cosmos-to-arbitrum",
+      "src_chain": "cosmos",
+      "dst_chain": "arbitrum",
+      "config": {
+        "cosmos_wasm_client_id": "",
+        "eth_rpc_url": "http://127.0.0.1:8547",
+        "eth_ws_url": "ws://127.0.0.1:8548",
+        "fetch_timeout": 15,
+        "spectre_client": "",
+        "ics26_address": "0x6c4729db04a00b4a76d854df35980e1646dff4ba",
+        "ics26_client_id": "arb-client-0",
+        "membership": "0xed8370a89ae2901f3194af877a3fac698367d1e8",
+        "misbehaviour": "0x5691faefc8e225e3e3bc95ab0ff1cd05fa2d6b30",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "clock_drift": 900,
+        "app_hash_wait_retries": 30,
+        "app_hash_wait_interval_seconds": 1,
+        "update_client": "0x37ae3443875bd0edf09d226790a5c2d8bb65d84a",
+        "signature_verifier": "0xf64ea274464c36c702ff267c7246d552152eaafe",
+        "rotation_threshold": "5/6"
+      }
+    },
+    {
+      "name": "arbitrum-to-cosmos",
+      "src_chain": "arbitrum",
+      "dst_chain": "cosmos",
+      "config": {
+        "l2_rpc_url": "http://127.0.0.1:8547",
+        "tm_rpc_url": "http://127.0.0.1:26657",
+        "attestor_endpoints": [{"address": "127.0.0.1:3002", "attestor_index": 0}],
+        "attestor_src_chain": "arbdev",
+        "attestors": {"public_keys": ["XZ+76qOWCo/r113X56pAXt0hi3AZpY9LU44nF4vCMmg="], "threshold": 1},
+        "l2_wasm_client_id": "08-wasm-2",
+        "l2_ics26_client_id": "arb-client-0",
+        "head_kind": "safe",
+        "log_scan_chunk": 0,
+        "router_deploy_block": 0,
+        "include_provisional": true,
+        "rollup_profile": {
+          "common": {
+            "l2_chain_id": 412346,
+            "l2_router": "0x6c4729db04a00b4a76d854df35980e1646dff4ba",
+            "commitment_slot": "0x1260944489272988d9df285149b5aa1b0f48f2136d6f416159f840a3e0747600",
+            "profile_version": "arbitrum_attestor_v1",
+            "l2_header_fork": "london"
+          }
+        }
+      }
+    }
+  ],
+  "batch": {
+    "batch_period_seconds": 3,
+    "batch_size": 5
+  }
+}
